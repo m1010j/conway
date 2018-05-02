@@ -13,3 +13,4 @@ end
 group :development do
   gem 'pry', '0.11.3'
 end
+gem 'byebug', '10.0.2'
