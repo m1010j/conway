@@ -1,8 +1,12 @@
 module Cell
 
+  attr_reader :location
+
   def initialize(attributes = {})
-    attributes_with_defaults = { boring_mode: true }.merge(attributes)
+    defaults = { boring_mode: true }
+    attributes_with_defaults = defaults.merge(attributes)
     @boring_mode = attributes_with_defaults[:boring_mode]
+    @location = attributes_with_defaults[:location]
   end
 
   def inspect

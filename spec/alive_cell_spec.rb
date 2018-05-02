@@ -2,7 +2,14 @@ require 'alive_cell'
 
 describe AliveCell do
 
-  subject(:cell) { AliveCell.new }
+  let(:location) { double('Location') }
+  subject(:cell) { AliveCell.new(location: location) }
+
+  describe '#location' do
+    it 'returns location' do
+      expect(cell.location).to eq(location)
+    end
+  end
 
   describe '#is_alive?' do
     it 'returns true' do
@@ -31,7 +38,10 @@ describe AliveCell do
   end
   
   context 'when exciting' do
-    let(:exciting_cell) { AliveCell.new(boring_mode: false) }
+    let(:exciting_cell) { AliveCell.new(
+      boring_mode: false, 
+      location: location
+    ) }
     
     describe '#to_s' do
       it 'returns exciting string' do
