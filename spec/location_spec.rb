@@ -4,21 +4,13 @@ describe Location do
   let(:world) { double("World") }
 
   subject(:location) { Location.new(
-    x: 5, 
-    y: 4, 
+    coordinates: [5, 4],
     world: world
   ) }
   
-
-  describe '#x' do
-    it 'should return x coordinate' do
-      expect(location.x).to eq(5)
-    end
-  end
-
-  describe '#y' do
-    it 'should return y coordinate' do
-      expect(location.y).to eq(4)
+  describe '#coordinates' do
+    it 'should return coordinate array' do
+      expect(location.coordinates).to eq([5, 4])
     end
   end
 
@@ -39,18 +31,18 @@ describe Location do
         neighbor_locations = location.neighbor_locations
 
         neighbor_coordinates = neighbor_locations.map do |neighbor_location|
-          {x: neighbor_location.x, y: neighbor_location.y}
+          extract_coordinates(neighbor_location)
         end
 
         expect(neighbor_coordinates).to match_array([
-          {x: 5, y: 3},
-          {x: 6, y: 3},
-          {x: 6, y: 4},
-          {x: 6, y: 5},
-          {x: 5, y: 5},
-          {x: 4, y: 5},
-          {x: 4, y: 4},
-          {x: 4, y: 3}
+          [5, 3],
+          [6, 3],
+          [6, 4],
+          [6, 5],
+          [5, 5],
+          [4, 5],
+          [4, 4],
+          [4, 3]
         ])
       end
 
@@ -59,13 +51,11 @@ describe Location do
     context 'when neighbors are out of range' do 
 
       let(:top_left_location) { Location.new(
-        x: 0, 
-        y: 0, 
+        coordinates: [0, 0], 
         world: world
       ) }
       let(:top_right_location) { Location.new(
-        x: 9, 
-        y: 0, 
+        coordinates: [9,0],
         world: world
       ) }
 
@@ -74,34 +64,34 @@ describe Location do
         top_left_neighbor_locations = top_left_location.neighbor_locations
         top_left_neighbor_coordinates = top_left_neighbor_locations
           .map do |neighbor_location|
-            {x: neighbor_location.x, y: neighbor_location.y}
+            extract_coordinates(neighbor_location)
           end
 
         top_right_neighbor_locations = top_right_location.neighbor_locations
         top_right_neighbor_coordinates = top_right_neighbor_locations
           .map do |neighbor_location|
-            {x: neighbor_location.x, y: neighbor_location.y}
+            extract_coordinates(neighbor_location)
           end
 
         expect(top_left_neighbor_coordinates).to match_array([
-          {x: 0, y: 7}, 
-          {x: 1, y: 7}, 
-          {x: 1, y: 0}, 
-          {x: 1, y: 1}, 
-          {x: 0, y: 1}, 
-          {x: 9, y: 1}, 
-          {x: 9, y: 0}, 
-          {x: 9, y: 7}
+          [0, 7], 
+          [1, 7], 
+          [1, 0], 
+          [1, 1], 
+          [0, 1], 
+          [9, 1], 
+          [9, 0], 
+          [9, 7]
         ])
         expect(top_right_neighbor_coordinates).to match_array([
-          {x: 9, y: 7}, 
-          {x: 0, y: 7}, 
-          {x: 0, y: 0}, 
-          {x: 0, y: 1}, 
-          {x: 9, y: 1}, 
-          {x: 8, y: 1}, 
-          {x: 8, y: 0}, 
-          {x: 8, y: 7}
+          [9, 7], 
+          [0, 7], 
+          [0, 0], 
+          [0, 1], 
+          [9, 1], 
+          [8, 1], 
+          [8, 0], 
+          [8, 7]
         ])
       end
 
@@ -109,10 +99,13 @@ describe Location do
 
   end
 
-  describe 'to_s' do
-    it 'returns a string of x and y coordinates separated by comma' do
-      expect(location.to_s).to eq('5,4')
-    end
-  end
+end
 
+private
+
+def extract_coordinates(location)
+  coordinates = location.coordinates
+  x = coordinates.first
+  y = coordinates.last
+  [x, y]
 end

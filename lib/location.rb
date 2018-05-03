@@ -4,22 +4,25 @@ class Location
 
   include Inspect
 
-  attr_reader :x, :y
+  attr_reader :coordinates
 
   def initialize(attributes)
-    @x = attributes[:x]
-    @y = attributes[:y]
+    @coordinates = attributes[:coordinates]
     @world = attributes[:world]
-  end
-  
-  def to_s
-    "#{x},#{y}"
   end
 
   def neighbor_locations
     neighbor_coordinates.map do |neighbor_coordinate|
-      self.class.new(neighbor_coordinate.merge({world: world}))
+      attributes = {
+        coordinates: neighbor_coordinate,
+        world: world
+      }
+      self.class.new(attributes)
     end
+  end
+
+  def num_coordinates
+    coordinates.length
   end
 
   private
@@ -28,19 +31,27 @@ class Location
 
   def neighbor_coordinates
     deltas = [
-      {x: 0, y: -1},
-      {x: 1, y: -1},
-      {x: 1, y: 0},
-      {x: 1, y: 1},
-      {x: 0, y: 1},
-      {x: -1, y: 1},
-      {x: -1, y: 0},
-      {x: -1, y: -1},
+      [0, -1],
+      [1, -1],
+      [1, 0],
+      [1, 1],
+      [0, 1],
+      [-1, 1],
+      [-1, 0],
+      [-1, -1],
     ]
 
     deltas.map do |delta|
-      {x: (x + delta[:x]) % world.width, y: (y + delta[:y]) % world.height}
+      [(x + delta.first) % world.width, (y + delta.last) % world.height]
     end
+  end
+
+  def x
+    coordinates.first
+  end
+
+  def y
+    coordinates.last
   end
 
 end
