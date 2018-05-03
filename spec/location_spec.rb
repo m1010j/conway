@@ -5,7 +5,7 @@ describe Location do
 
   subject(:location) { Location.new(
     x: 5, 
-    y: 5, 
+    y: 4, 
     world: world
   ) }
   
@@ -18,7 +18,7 @@ describe Location do
 
   describe '#y' do
     it 'should return y coordinate' do
-      expect(location.y).to eq(5)
+      expect(location.y).to eq(4)
     end
   end
 
@@ -43,14 +43,14 @@ describe Location do
         end
 
         expect(neighbor_coordinates).to match_array([
-          {x: 5, y: 4},
+          {x: 5, y: 3},
+          {x: 6, y: 3},
           {x: 6, y: 4},
           {x: 6, y: 5},
-          {x: 6, y: 6},
-          {x: 5, y: 6},
-          {x: 4, y: 6},
+          {x: 5, y: 5},
           {x: 4, y: 5},
-          {x: 4, y: 4}
+          {x: 4, y: 4},
+          {x: 4, y: 3}
         ])
       end
 
@@ -107,6 +107,12 @@ describe Location do
 
     end
 
+  end
+
+  describe 'to_s' do
+    it 'returns a string of x and y coordinates separated by comma' do
+      expect(location.to_s).to eq('5,4')
+    end
   end
 
 end

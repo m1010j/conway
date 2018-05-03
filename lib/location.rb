@@ -1,4 +1,8 @@
+require_relative 'modules/inspect'
+
 class Location
+
+  include Inspect
 
   attr_reader :x, :y
 
@@ -6,6 +10,10 @@ class Location
     @x = attributes[:x]
     @y = attributes[:y]
     @world = attributes[:world]
+  end
+  
+  def to_s
+    "#{x},#{y}"
   end
 
   def neighbor_locations
