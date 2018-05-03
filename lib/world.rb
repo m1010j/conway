@@ -15,10 +15,8 @@ class World
     self.class.validate_initial_state!(initial_state)
 
     @cells = self.class.generate_cells(attributes)
-    @neighbor_map = self.generate_neighbor_map
-    height = initial_state.length
-    width = initial_state[0].length
-    @dimensions = [width, height]
+    @dimensions = self.class.extract_dimensions(initial_state)
+    @neighbor_map = generate_neighbor_map
   end
 
   def cell_at(location)
@@ -39,10 +37,13 @@ class World
 
   def tick!
     cells.each do |coordinate, cell|
-      alive_after_tick? = cell.alive_after_tick?
-      new_cell = alive_after_tick? ? AliveCell.instance : DeadCell.instance
-      cell[coordinate] = new_cell
+      location = Location.new(coordinate: coordinate, dimensions: dimensions)
+      num_alive_neighbors = self.num_alive_neighbors(location)
+      alive_after_tick = cell.alive_after_tick?(num_alive_neighbors)
+      new_cell = alive_after_tick ? AliveCell.instance : DeadCell.instance
+      cells[coordinate] = new_cell
     end
+    self
   end
 
   def to_s
@@ -86,12 +87,14 @@ class World
     cells = {}
     initial_state.each_with_index do |row, y|
       row.each_with_index do |state, x|
-        location = Location.new(coordinate: [x, y], dimensions: dimensions)
-        cell_attributes = { location: location, boring_mode: boring_mode }
+        location = Location.new(
+          coordinate: [x, y], 
+          dimensions: self.extract_dimensions(initial_state)
+        )
         cell = state == "alive" ? 
-        AliveCell.new(cell_attributes)
+        AliveCell.instance
         :
-        DeadCell.new(cell_attributes)
+        DeadCell.instance
         cells[location.coordinate] = cell
       end
     end
@@ -140,5 +143,10 @@ class World
     inner_dimens = self.array_dimensionality(array.first, dimens_memo + 1)
   end
 
+  def self.extract_dimensions(array)
+    height = array.length
+    width = array[0].length
+    [width, height]
+  end
 
 end
