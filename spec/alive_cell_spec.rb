@@ -3,7 +3,7 @@ require 'alive_cell'
 describe AliveCell do
 
   let(:location) { double('Location') }
-  subject(:cell) { AliveCell.new(location: location) }
+  subject(:cell) { AliveCell.new(location: location, emoji_mode: false) }
 
   describe '#location' do
     it 'returns location' do
@@ -23,7 +23,7 @@ describe AliveCell do
     end
   end
 
-  context 'when boring' do
+  context 'when in boring mode' do
     describe '#to_s' do
       it 'returns boring string' do
         expect(cell.to_s).to eq('o')
@@ -37,21 +37,21 @@ describe AliveCell do
     end
   end
   
-  context 'when exciting' do
-    let(:exciting_cell) { AliveCell.new(
-      boring_mode: false, 
-      location: location
+  context 'when in emoji mode' do
+    let(:emoji_cell) { AliveCell.new(
+      location: location,
+      emoji_mode: true
     ) }
     
     describe '#to_s' do
-      it 'returns exciting string' do
-        expect(exciting_cell.to_s).to eq('🤩')
+      it 'returns emoji string' do
+        expect(emoji_cell.to_s).to eq('😁')
       end
     end
 
     describe '#inspect' do
-      it 'returns exciting string' do
-        expect(exciting_cell.inspect).to eq('🤩')
+      it 'returns emoji string' do
+        expect(emoji_cell.inspect).to eq('😁')
       end
     end
   end

@@ -9,7 +9,7 @@ class DeadCell
   end
 
   def to_s
-    boring_mode ? 'x' : '😵'
+    emoji_mode ? '☠️' : 'x'
   end
 
 end

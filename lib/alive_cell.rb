@@ -9,7 +9,7 @@ class AliveCell
   end
 
   def to_s
-    boring_mode ? 'o' : '🤩'
+    emoji_mode ? '😁' : 'o'
   end
 
 end
