@@ -4,7 +4,7 @@ class Location
 
   include Inspect
 
-  attr_reader :coordinates
+  attr_reader :coordinate
 
   def initialize(attributes)
     @coordinate = attributes[:coordinate]
