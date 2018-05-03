@@ -28,4 +28,21 @@ describe AliveCell do
     end
   end
 
+  describe '#alive_after_tick?' do
+    it 'returns true for 2 or 3 alive neighbors' do
+      (2..3).each do |num|
+        expect(cell.alive_after_tick?(num)).to eq(true)
+      end
+    end
+
+    it 'returns false for < 2 or > 3 alive neighbors' do
+      (0..1).each do |num|
+        expect(cell.alive_after_tick?(num)).to eq(false)
+      end
+      (4..8).each do |num|
+        expect(cell.alive_after_tick?(num)).to eq(false)
+      end
+    end
+  end
+
 end

@@ -14,4 +14,8 @@ class AliveCell
     '😁'
   end
 
+  def alive_after_tick?(num_alive_neighbors)
+    [2, 3].include?(num_alive_neighbors)
+  end
+
 end

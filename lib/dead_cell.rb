@@ -14,4 +14,8 @@ class DeadCell
     '☠️'
   end
 
+  def alive_after_tick?(num_alive_neighbors)
+    num_alive_neighbors === 3
+  end
+
 end
