@@ -1,7 +1,9 @@
+require 'singleton'
 require_relative 'modules/cell'
 
 class DeadCell
 
+  include Singleton
   include Cell
 
   def is_alive?
@@ -9,7 +11,7 @@ class DeadCell
   end
 
   def to_s
-    emoji_mode ? '☠️' : 'x'
+    '☠️'
   end
 
 end
