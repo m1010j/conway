@@ -1,16 +1,16 @@
+require_relative 'inspect'
+
 module Cell
+
+  include Inspect
 
   attr_reader :location
 
   def initialize(attributes = {})
-    defaults = { boring_mode: true }
+    defaults = { emoji_mode: false }
     attributes_with_defaults = defaults.merge(attributes)
-    @boring_mode = attributes_with_defaults[:boring_mode]
+    @emoji_mode = attributes_with_defaults[:emoji_mode]
     @location = attributes_with_defaults[:location]
-  end
-
-  def inspect
-    self.to_s
   end
 
   def is_dead?
@@ -19,6 +19,6 @@ module Cell
 
   private
 
-  attr_reader :boring_mode
+  attr_reader :emoji_mode
 
 end
