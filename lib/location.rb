@@ -8,14 +8,14 @@ class Location
 
   def initialize(attributes)
     @coordinates = attributes[:coordinates]
-    @world = attributes[:world]
+    @dimensions = attributes[:dimensions]
   end
 
   def neighbor_locations
     neighbor_coordinates.map do |neighbor_coordinate|
       attributes = {
         coordinates: neighbor_coordinate,
-        world: world
+        dimensions: dimensions
       }
       self.class.new(attributes)
     end
@@ -27,7 +27,7 @@ class Location
 
   private
 
-  attr_reader :world
+  attr_reader :dimensions
 
   def neighbor_coordinates
     deltas = [
@@ -42,7 +42,10 @@ class Location
     ]
 
     deltas.map do |delta|
-      [(x + delta.first) % world.width, (y + delta.last) % world.height]
+      [
+        (x + delta.first) % dimensions.first,
+        (y + delta.last) % dimensions.last
+      ]
     end
   end
 

@@ -1,11 +1,11 @@
 require 'location'
 
 describe Location do
-  let(:world) { double("World") }
+  let(:dimensions) { [10, 8] }
 
   subject(:location) { Location.new(
     coordinates: [5, 4],
-    world: world
+    dimensions: dimensions
   ) }
   
   describe '#coordinates' do
@@ -15,11 +15,7 @@ describe Location do
   end
 
   describe '#neighbor_locations' do
-    before(:each) do
-      allow(world).to receive(:width).and_return(10)
-      allow(world).to receive(:height).and_return(8)
-    end
-    
+
     it 'should return location objects' do
       neighbor_locations = location.neighbor_locations
       expect(neighbor_locations).to all( be_a(Location) )
@@ -52,11 +48,11 @@ describe Location do
 
       let(:top_left_location) { Location.new(
         coordinates: [0, 0], 
-        world: world
+        dimensions: dimensions
       ) }
       let(:top_right_location) { Location.new(
         coordinates: [9,0],
-        world: world
+        dimensions: dimensions
       ) }
 
       it 'should wrap around' do
