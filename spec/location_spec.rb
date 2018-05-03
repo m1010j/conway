@@ -4,13 +4,13 @@ describe Location do
   let(:dimensions) { [10, 8] }
 
   subject(:location) { Location.new(
-    coordinates: [5, 4],
+    coordinate: [5, 4],
     dimensions: dimensions
   ) }
   
-  describe '#coordinates' do
+  describe '#coordinate' do
     it 'should return coordinate array' do
-      expect(location.coordinates).to eq([5, 4])
+      expect(location.coordinate).to eq([5, 4])
     end
   end
 
@@ -23,7 +23,7 @@ describe Location do
     
     context 'when neighbors are in range' do
 
-      it 'should return locations with the right coordinates' do
+      it 'should return locations with the correct coordinate' do
         neighbor_locations = location.neighbor_locations
 
         neighbor_coordinates = neighbor_locations.map do |neighbor_location|
@@ -47,11 +47,11 @@ describe Location do
     context 'when neighbors are out of range' do 
 
       let(:top_left_location) { Location.new(
-        coordinates: [0, 0], 
+        coordinate: [0, 0], 
         dimensions: dimensions
       ) }
       let(:top_right_location) { Location.new(
-        coordinates: [9,0],
+        coordinate: [9,0],
         dimensions: dimensions
       ) }
 
@@ -100,7 +100,7 @@ end
 private
 
 def extract_coordinates(location)
-  coordinates = location.coordinates
+  coordinates = location.coordinate
   x = coordinates.first
   y = coordinates.last
   [x, y]

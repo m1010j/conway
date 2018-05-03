@@ -7,14 +7,14 @@ class Location
   attr_reader :coordinates
 
   def initialize(attributes)
-    @coordinates = attributes[:coordinates]
+    @coordinate = attributes[:coordinate]
     @dimensions = attributes[:dimensions]
   end
 
   def neighbor_locations
     neighbor_coordinates.map do |neighbor_coordinate|
       attributes = {
-        coordinates: neighbor_coordinate,
+        coordinate: neighbor_coordinate,
         dimensions: dimensions
       }
       self.class.new(attributes)
@@ -22,7 +22,7 @@ class Location
   end
 
   def num_coordinates
-    coordinates.length
+    coordinate.length
   end
 
   private
@@ -50,11 +50,11 @@ class Location
   end
 
   def x
-    coordinates.first
+    coordinate.first
   end
 
   def y
-    coordinates.last
+    coordinate.last
   end
 
 end
