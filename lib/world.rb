@@ -45,20 +45,6 @@ class World
       new_cells[coordinate] = new_cell
     end
     self.cells = new_cells
-    self
-  end
-
-  def to_s
-    result_string = ""
-    self.height.times do |y|
-      self.width.times do |x|
-        location = Location.new(coordinate: [x, y], dimensions: dimensions)
-        cell = self.cell_at(location)
-        result_string += cell.to_s
-      end
-      result_string += "\n"
-    end
-    result_string.chomp
   end
 
   def width

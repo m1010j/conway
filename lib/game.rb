@@ -1,4 +1,5 @@
 require_relative 'world'
+require_relative 'display'
 require_relative 'examples/examples'
 class Game
 
@@ -7,14 +8,19 @@ class Game
     attributes = self.class.default_attributes.merge(attributes)
     @world = attributes[:world]
     @velocity = attributes[:velocity]
+    @display = Display.new(world: @world)
   end
   def start!
     while true
       system("clear")
       tick!
-      puts world.to_s
+      puts self.render
       sleep(velocity)
     end
+  end
+
+  def render
+    display.render
   end
     
   def self.make_random(options)
@@ -36,7 +42,7 @@ class Game
 
   private
 
-  attr_reader :world, :velocity
+  attr_reader :world, :display, :velocity
 
   def self.default_attributes
     { velocity: 0.5 }
