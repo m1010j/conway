@@ -1,31 +1,57 @@
 require_relative 'world'
-
+require_relative 'examples/examples'
+require 'byebug'
 class Game
 
-  def initialize(world)
-    @world = world
+  extend Examples
+  def initialize(attributes)
+    attributes = self.class.default_attributes.merge(attributes)
+    @world = attributes[:world]
+    @velocity = attributes[:velocity]
+  end
+  def start!
+    while true
+      system("clear")
+      tick!
+      puts world.to_s
+      sleep(velocity)
+    end
+  end
+    
+  def self.make_random(options)
+    dimensions = options[:dimensions]
+    world = World.new(initial_state: self.random(dimensions))
+    options[:world] = world
+    self.new(options)
   end
 
-  def self.make_oscillator
-    world = World.new(initial_state: self.oscillator)
-    self.new(world)
-  end
-
-  def tick!
-    world.tick!
+  examples = self.examples
+  examples.keys.each do |example_key|
+    define_singleton_method("make_#{example_key}") do |attributes = {}|
+      debugger
+      example = examples[example_key]
+      world = World.new(initial_state: example)
+      attributes[:world] = world
+      self.new(attributes)
+    end
   end
 
   private
 
-  attr_reader :world
+  attr_reader :world, :velocity
 
-  def self.oscillator
-    [
-      ["dead", "dead", "dead", "dead", "dead"],
-      ["dead", "dead", "alive", "dead", "dead"],
-      ["dead", "dead", "alive", "dead", "dead"],
-      ["dead", "dead", "alive", "dead", "dead"],
-      ["dead", "dead", "dead", "dead", "dead"],
-    ]
+  def self.default_attributes
+    { velocity: 0.5 }
+  end
+
+    def self.random(dimensions)
+      states = ["alive", "dead"]
+      grid = Array.new(dimensions.first) do
+        Array.new(dimensions.last) { states.sample }
+      end
+    end
+  
+  def tick!
+    world.tick!
   end
 end
