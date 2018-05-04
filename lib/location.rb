@@ -30,17 +30,6 @@ class Location
   attr_reader :dimensions
 
   def neighbor_coordinates
-    deltas = [
-      [0, -1],
-      [1, -1],
-      [1, 0],
-      [1, 1],
-      [0, 1],
-      [-1, 1],
-      [-1, 0],
-      [-1, -1],
-    ]
-
     deltas.map do |delta|
       [
         (x + delta.first) % dimensions.first,
@@ -55,6 +44,18 @@ class Location
 
   def y
     coordinate.last
+  end
+
+  def deltas
+    dimensionality = dimensions.length
+    negative_ones = Array.new(dimensionality) { -1 }
+    zeroes = Array.new(dimensionality) { 0 }
+    ones = Array.new(dimensionality) { 1 }
+    base_numbers = negative_ones + zeroes + ones
+    delta_perms = base_numbers.permutation(dimensionality).to_a
+    unique_deltas = delta_perms.uniq
+    zero_delta = Array.new(dimensionality) { 0 }
+    unique_deltas - [zero_delta]
   end
 
 end
