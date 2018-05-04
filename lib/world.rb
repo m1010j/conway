@@ -36,13 +36,15 @@ class World
   end
 
   def tick!
+    new_cells = {}
     cells.each do |coordinate, cell|
       location = Location.new(coordinate: coordinate, dimensions: dimensions)
       num_alive_neighbors = self.num_alive_neighbors(location)
       alive_after_tick = cell.alive_after_tick?(num_alive_neighbors)
       new_cell = alive_after_tick ? AliveCell.instance : DeadCell.instance
-      cells[coordinate] = new_cell
+      new_cells[coordinate] = new_cell
     end
+    self.cells = new_cells
     self
   end
 
@@ -74,6 +76,7 @@ class World
   private
 
   attr_reader :neighbor_map
+  attr_writer :cells
 
   def self.validate_initial_state!(initial_state)
     unless initial_state_is_valid?(initial_state)
@@ -83,7 +86,6 @@ class World
 
   def self.generate_cells(attributes)
     initial_state = attributes[:initial_state]
-    boring_mode = attributes[:boring_mode]
     cells = {}
     initial_state.each_with_index do |row, y|
       row.each_with_index do |state, x|
