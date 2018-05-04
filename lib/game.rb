@@ -1,6 +1,5 @@
 require_relative 'world'
 require_relative 'examples/examples'
-require 'byebug'
 class Game
 
   extend Examples
@@ -28,7 +27,6 @@ class Game
   examples = self.examples
   examples.keys.each do |example_key|
     define_singleton_method("make_#{example_key}") do |attributes = {}|
-      debugger
       example = examples[example_key]
       world = World.new(initial_state: example)
       attributes[:world] = world
