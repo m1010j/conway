@@ -18,13 +18,13 @@ describe DeadCell do
     
   describe '#to_s' do
     it 'returns dead string' do
-      expect(cell.to_s).to eq('☠️')
+      expect(cell.to_s).to eq('💀')
     end
   end
 
   describe '#inspect' do
     it 'returns dead string' do
-      expect(cell.inspect).to eq('☠️')
+      expect(cell.inspect).to eq('💀')
     end
   end
 
