@@ -17,14 +17,14 @@ describe AliveCell do
   end
       
   describe '#to_s' do
-    it 'returns alive string' do
-      expect(cell.to_s).to eq('😁')
+    it 'returns alive grin emoji string' do
+      expect(cell.to_s).to eq("\u{1f601} ")
     end
   end
 
   describe '#inspect' do
-    it 'returns alive string' do
-      expect(cell.inspect).to eq('😁')
+    it 'returns alive grin emoji string' do
+      expect(cell.inspect).to eq("\u{1f601} ")
     end
   end
 

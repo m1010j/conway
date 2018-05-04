@@ -17,14 +17,14 @@ describe DeadCell do
   end
     
   describe '#to_s' do
-    it 'returns dead string' do
-      expect(cell.to_s).to eq('💀')
+    it 'returns skull emoji string' do
+      expect(cell.to_s).to eq("\u{1f480} ")
     end
   end
 
   describe '#inspect' do
-    it 'returns dead string' do
-      expect(cell.inspect).to eq('💀')
+    it 'returns skull emoji string' do
+      expect(cell.inspect).to eq("\u{1f480} ")
     end
   end
 

@@ -11,7 +11,8 @@ class DeadCell
   end
 
   def to_s
-    '💀'
+    # '💀 '
+    "\u{1f480} "
   end
 
   def alive_after_tick?(num_alive_neighbors)
