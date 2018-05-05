@@ -10,12 +10,11 @@ class Display
     height.times do |y|
       width.times do |x|
         location = Location.new(coordinate: [x, y], dimensions: [width, height])
-        cell = world.cell_at(location)
-        result_string += cell.to_s
+        result_string += cell_string_at(location)
       end
       result_string += "\n"
     end
-    result_string.chomp
+    result_string += "Generation: #{generation}"
   end
 
   private
@@ -28,6 +27,18 @@ class Display
 
   def height
     dimensions.last
+  end
+
+  def cell_at(location)
+    world.cell_at(location)
+  end
+
+  def cell_string_at(location)
+    cell_at(location).to_s
+  end
+
+  def generation
+    world.generation
   end
 
 end

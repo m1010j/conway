@@ -38,6 +38,12 @@ describe World do
   let(:location_4_3) { double("Location 4, 3", coordinate: [4, 3]) }
   let(:location_4_4) { double("Location 4, 4", coordinate: [4, 4]) }
 
+  describe '#generation' do
+    it 'starts out at 0' do
+      expect(world.generation).to eq(0)
+    end
+  end
+
   describe '#dimensions' do
     it "returns world's dimensions" do
       expect(world.dimensions).to eq([5, 5])
@@ -75,6 +81,13 @@ describe World do
   end
 
   describe '#tick!' do
+
+    it 'increments generation' do
+      world.tick!
+      expect(world.generation).to eq(1)
+      world.tick!
+      expect(world.generation).to eq(2)
+    end
 
     context "when cells don't wrap around" do
       it 'modifies world according to rules' do

@@ -4,25 +4,14 @@ require_relative 'examples/examples'
 class Game
 
   extend Examples
+
   def initialize(attributes)
     attributes = self.class.default_attributes.merge(attributes)
     @world = attributes[:world]
     @velocity = attributes[:velocity]
     @display = Display.new(world: @world)
   end
-  def start!
-    while true
-      system("clear")
-      tick!
-      puts self.render
-      sleep(velocity)
-    end
-  end
 
-  def render
-    display.render
-  end
-    
   def self.make_random(options)
     dimensions = options[:dimensions]
     world = World.new(initial_state: self.random(dimensions))
@@ -39,7 +28,20 @@ class Game
       self.new(attributes)
     end
   end
+  
+  def start!
+    while true
+      system("clear")
+      tick!
+      puts self.render
+      sleep(velocity)
+    end
+  end
 
+  def render
+    display.render
+  end
+    
   private
 
   attr_reader :world, :display, :velocity

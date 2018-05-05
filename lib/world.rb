@@ -8,7 +8,7 @@ class World
 
   include Inspect
 
-  attr_reader :dimensions
+  attr_reader :dimensions, :generation
 
   def initialize(attributes)
     initial_state = attributes[:initial_state]
@@ -17,6 +17,7 @@ class World
     @cells = self.class.generate_cells(initial_state)
     @dimensions = self.class.extract_dimensions(initial_state)
     @neighbor_map = generate_neighbor_map
+    @generation = 0
   end
 
   def cell_at(location)
@@ -32,6 +33,7 @@ class World
       new_cell = live_after_tick ? LiveCell.instance : DeadCell.instance
       new_cells[coordinate] = new_cell
     end
+    increment_generation
     self.cells = new_cells
   end
 
@@ -62,6 +64,10 @@ class World
       end
     end
     cells
+  end
+
+  def increment_generation
+    @generation += 1
   end
 
   def neighbors_of(location)
