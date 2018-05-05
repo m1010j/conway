@@ -6,8 +6,8 @@ module Cell
   include Inspect
   include Rules  
 
-  def is_dead?
-    !self.is_live?
+  def dead?
+    !self.live?
   end
 
   private

@@ -6,7 +6,7 @@ class LiveCell
   include Singleton
   include Cell
 
-  def is_live?
+  def live?
     true
   end
 

@@ -4,15 +4,15 @@ describe LiveCell do
 
   subject(:cell) { LiveCell.instance }
 
-  describe '#is_live?' do
+  describe '#live?' do
     it 'returns true' do
-      expect(cell.is_live?).to eq(true)
+      expect(cell.live?).to eq(true)
     end
   end
 
-  describe '#is_dead?' do
+  describe '#dead?' do
     it 'returns false' do
-      expect(cell.is_dead?).to eq(false)
+      expect(cell.dead?).to eq(false)
     end
   end
       

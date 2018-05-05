@@ -73,7 +73,7 @@ class World
 
   def num_live_neighbors(location)
     neighbors = neighbors_of(location)
-    neighbors.count { |neighbor| neighbor.is_live? }
+    neighbors.count { |neighbor| neighbor.live? }
   end
 
   def generate_neighbor_map

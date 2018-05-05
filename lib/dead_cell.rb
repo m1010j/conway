@@ -6,7 +6,7 @@ class DeadCell
   include Singleton
   include Cell
 
-  def is_live?
+  def live?
     false
   end
 
