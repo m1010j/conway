@@ -44,7 +44,7 @@ class World
 
   def self.validate_initial_state!(initial_state)
     unless initial_state_is_valid?(initial_state)
-      raise InvalidinInitialStateError
+      raise InvalidInitialStateError
     end
   end
 

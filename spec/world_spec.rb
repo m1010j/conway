@@ -38,6 +38,31 @@ describe World do
   let(:location_4_3) { double("Location 4, 3", coordinate: [4, 3]) }
   let(:location_4_4) { double("Location 4, 4", coordinate: [4, 4]) }
 
+  describe '#initialize' do
+    it "throws error if initial state isn't equilateral" do
+      invalid_initial_state = [
+        [:dead, :live, :dead, :dead],
+        [:dead, :dead, :live, :dead, :dead],
+        [:live, :live, :live, :dead, :dead],
+        [:dead, :dead, :dead, :dead, :dead],
+        [:dead, :dead, :dead, :dead, :dead],
+      ]
+      expect { World.new(initial_state: invalid_initial_state) }.
+        to raise_error(InvalidInitialStateError)
+    end
+    it "throws error if initial state contains invalid states" do
+      invalid_initial_state = [
+        [:dead, :live, :dead, :dead, :schroedinger],
+        [:dead, :dead, :live, :dead, :dead],
+        [:live, :live, :live, :dead, :dead],
+        [:dead, :dead, :dead, :dead, :dead],
+        [:dead, :dead, :dead, :dead, :dead],
+      ]
+      expect { World.new(initial_state: invalid_initial_state) }.
+        to raise_error(InvalidInitialStateError)
+    end
+  end
+
   describe '#generation' do
     it 'starts out at 0' do
       expect(world.generation).to eq(0)
