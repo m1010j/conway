@@ -15,8 +15,4 @@ class DeadCell
     "\u{1f480} "
   end
 
-  def live_after_tick?(num_live_neighbors)
-    num_live_neighbors === 3
-  end
-
 end
