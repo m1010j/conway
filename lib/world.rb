@@ -79,7 +79,7 @@ class World
           coordinate: [x, y], 
           dimensions: self.extract_dimensions(initial_state)
         )
-        cell = state == "alive" ? 
+        cell = state == :live ? 
         AliveCell.instance
         :
         DeadCell.instance
@@ -108,7 +108,7 @@ class World
   
   def self.only_dead_or_alive?(cell_state_array)
     cell_state_array.all? do |cell_state| 
-      cell_state == "alive" || cell_state == "dead"
+      cell_state == :live || cell_state == :dead
     end
   end
 

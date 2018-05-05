@@ -49,7 +49,7 @@ class Game
   end
 
     def self.random(dimensions)
-      states = ["alive", "dead"]
+      states = [:live, :dead]
       grid = Array.new(dimensions.first) do
         Array.new(dimensions.last) { states.sample }
       end
