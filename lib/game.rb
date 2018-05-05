@@ -12,8 +12,8 @@ class Game
     @display = Display.new(world: @world)
   end
 
-  def self.make_random(options)
-    dimensions = options[:dimensions]
+  def self.make_random(options = {})
+    dimensions = options[:dimensions] || [10, 10]
     world = World.new(initial_state: self.random(dimensions))
     options[:world] = world
     self.new(options)
