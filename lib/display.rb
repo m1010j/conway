@@ -2,8 +2,7 @@ class Display
 
   def initialize(attributes)
     @world = attributes[:world]
-    @width = @world.width
-    @height = @world.height
+    @dimensions = @world.dimensions
   end
 
   def render
@@ -21,6 +20,14 @@ class Display
 
   private
 
-  attr_reader :world, :height, :width
+  attr_reader :world, :dimensions
+
+  def width
+    dimensions.first
+  end
+
+  def height
+    dimensions.last
+  end
 
 end

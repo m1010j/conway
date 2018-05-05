@@ -8,13 +8,13 @@ class World
 
   include Inspect
 
-  attr_reader :cells, :dimensions
+  attr_reader :dimensions
 
   def initialize(attributes)
     initial_state = attributes[:initial_state]
     self.class.validate_initial_state!(initial_state)
 
-    @cells = self.class.generate_cells(attributes)
+    @cells = self.class.generate_cells(initial_state)
     @dimensions = self.class.extract_dimensions(initial_state)
     @neighbor_map = generate_neighbor_map
   end
@@ -23,23 +23,11 @@ class World
     cells[location.coordinate]
   end
 
-  def neighbors_of(location)
-    neighbor_locations = neighbor_map[location.coordinate]
-    neighbor_locations.map do |neighbor_location|
-      cells[neighbor_location.coordinate]
-    end
-  end
-
-  def num_live_neighbors(location)
-    neighbors = self.neighbors_of(location)
-    neighbors.count { |neighbor| neighbor.is_live? }
-  end
-
   def tick!
     new_cells = {}
     cells.each do |coordinate, cell|
       location = Location.new(coordinate: coordinate, dimensions: dimensions)
-      num_live_neighbors = self.num_live_neighbors(location)
+      num_live_neighbors = num_live_neighbors(location)
       live_after_tick = cell.live_after_tick?(num_live_neighbors)
       new_cell = live_after_tick ? LiveCell.instance : DeadCell.instance
       new_cells[coordinate] = new_cell
@@ -47,22 +35,10 @@ class World
     self.cells = new_cells
   end
 
-  def width
-    dimensions.first
-  end
-
-  def height
-    dimensions.last
-  end
-
-  def dimensionality
-    dimensions.length
-  end
-
   private
 
   attr_reader :neighbor_map
-  attr_writer :cells
+  attr_accessor :cells
 
   def self.validate_initial_state!(initial_state)
     unless initial_state_is_valid?(initial_state)
@@ -70,8 +46,7 @@ class World
     end
   end
 
-  def self.generate_cells(attributes)
-    initial_state = attributes[:initial_state]
+  def self.generate_cells(initial_state)
     cells = {}
     initial_state.each_with_index do |row, y|
       row.each_with_index do |state, x|
@@ -87,6 +62,18 @@ class World
       end
     end
     cells
+  end
+
+  def neighbors_of(location)
+    neighbor_locations = neighbor_map[location.coordinate]
+    neighbor_locations.map do |neighbor_location|
+      cells[neighbor_location.coordinate]
+    end
+  end
+
+  def num_live_neighbors(location)
+    neighbors = neighbors_of(location)
+    neighbors.count { |neighbor| neighbor.is_live? }
   end
 
   def generate_neighbor_map
