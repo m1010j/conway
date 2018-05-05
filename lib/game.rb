@@ -6,25 +6,24 @@ class Game
   extend Examples
 
   def initialize(attributes)
-    attributes = self.class.default_attributes.merge(attributes)
-    @world = attributes[:world]
-    @velocity = attributes[:velocity]
+    initial_state = attributes[:initial_state]
+    @world = World.new(initial_state: initial_state)
+    @velocity = attributes[:velocity] || 0.5
     @display = Display.new(world: @world)
   end
 
-  def self.make_random(options = {})
-    dimensions = options[:dimensions] || [10, 10]
-    world = World.new(initial_state: self.random(dimensions))
-    options[:world] = world
-    self.new(options)
+  def self.make_random(attributes = {})
+    dimensions = attributes[:dimensions] || [10, 10]
+    attributes[:initial_state] = self.random(dimensions)
+    attributes[:world] = world
+    self.new(attributes)
   end
 
   examples = self.examples
   examples.keys.each do |example_key|
     define_singleton_method("make_#{example_key}") do |attributes = {}|
       example = examples[example_key]
-      world = World.new(initial_state: example)
-      attributes[:world] = world
+      attributes[:initial_state] = example
       self.new(attributes)
     end
   end
@@ -45,10 +44,6 @@ class Game
   private
 
   attr_reader :world, :display, :velocity
-
-  def self.default_attributes
-    { velocity: 0.5 }
-  end
 
     def self.random(dimensions)
       states = [:live, :dead]
