@@ -5,7 +5,7 @@ module Cell
   include Inspect
 
   def is_dead?
-    !self.is_alive?
+    !self.is_live?
   end
 
   private

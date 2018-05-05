@@ -1,12 +1,12 @@
 require 'singleton'
 require_relative 'modules/cell'
 
-class AliveCell
+class LiveCell
 
   include Singleton
   include Cell
 
-  def is_alive?
+  def is_live?
     true
   end
 
@@ -15,8 +15,8 @@ class AliveCell
     "\u{1f601} "
   end
 
-  def alive_after_tick?(num_alive_neighbors)
-    [2, 3].include?(num_alive_neighbors)
+  def live_after_tick?(num_live_neighbors)
+    [2, 3].include?(num_live_neighbors)
   end
 
 end

@@ -4,9 +4,9 @@ describe DeadCell do
 
   subject(:cell) { DeadCell.instance }
 
-  describe '#is_alive?' do
+  describe '#is_live?' do
     it 'returns true' do
-      expect(cell.is_alive?).to eq(false)
+      expect(cell.is_live?).to eq(false)
     end
   end
 
@@ -28,17 +28,17 @@ describe DeadCell do
     end
   end
 
-  describe '#alive_after_tick?' do
-    it 'returns true for 3 alive neighbors' do
-      expect(cell.alive_after_tick?(3)).to eq(true)
+  describe '#live_after_tick?' do
+    it 'returns true for 3 live neighbors' do
+      expect(cell.live_after_tick?(3)).to eq(true)
     end
 
-    it 'returns false for < 3 or > 3 alive neighbors' do
+    it 'returns false for < 3 or > 3 live neighbors' do
       (0..2).each do |num|
-        expect(cell.alive_after_tick?(num)).to eq(false)
+        expect(cell.live_after_tick?(num)).to eq(false)
       end
       (4..8).each do |num|
-        expect(cell.alive_after_tick?(num)).to eq(false)
+        expect(cell.live_after_tick?(num)).to eq(false)
       end
     end
   end

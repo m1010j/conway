@@ -6,7 +6,7 @@ class DeadCell
   include Singleton
   include Cell
 
-  def is_alive?
+  def is_live?
     false
   end
 
@@ -15,8 +15,8 @@ class DeadCell
     "\u{1f480} "
   end
 
-  def alive_after_tick?(num_alive_neighbors)
-    num_alive_neighbors === 3
+  def live_after_tick?(num_live_neighbors)
+    num_live_neighbors === 3
   end
 
 end

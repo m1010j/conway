@@ -1,5 +1,5 @@
 require_relative 'location'
-require_relative 'alive_cell'
+require_relative 'live_cell'
 require_relative 'dead_cell'
 require_relative 'errors/invalid_initial_state'
 require_relative 'modules/inspect'
@@ -30,18 +30,18 @@ class World
     end
   end
 
-  def num_alive_neighbors(location)
+  def num_live_neighbors(location)
     neighbors = self.neighbors_of(location)
-    neighbors.count { |neighbor| neighbor.is_alive? }
+    neighbors.count { |neighbor| neighbor.is_live? }
   end
 
   def tick!
     new_cells = {}
     cells.each do |coordinate, cell|
       location = Location.new(coordinate: coordinate, dimensions: dimensions)
-      num_alive_neighbors = self.num_alive_neighbors(location)
-      alive_after_tick = cell.alive_after_tick?(num_alive_neighbors)
-      new_cell = alive_after_tick ? AliveCell.instance : DeadCell.instance
+      num_live_neighbors = self.num_live_neighbors(location)
+      live_after_tick = cell.live_after_tick?(num_live_neighbors)
+      new_cell = live_after_tick ? LiveCell.instance : DeadCell.instance
       new_cells[coordinate] = new_cell
     end
     self.cells = new_cells
@@ -80,7 +80,7 @@ class World
           dimensions: self.extract_dimensions(initial_state)
         )
         cell = state == :live ? 
-        AliveCell.instance
+        LiveCell.instance
         :
         DeadCell.instance
         cells[location.coordinate] = cell
@@ -103,10 +103,10 @@ class World
     return false unless initial_state
   
     flattened = initial_state.flatten
-    only_dead_or_alive?(flattened) && is_equilateral?(initial_state)
+    only_dead_or_live?(flattened) && is_equilateral?(initial_state)
   end
   
-  def self.only_dead_or_alive?(cell_state_array)
+  def self.only_dead_or_live?(cell_state_array)
     cell_state_array.all? do |cell_state| 
       cell_state == :live || cell_state == :dead
     end
