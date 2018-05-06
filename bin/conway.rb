@@ -2,6 +2,7 @@
 
 require 'io/console'
 require_relative '../lib/game.rb'
+require_relative '../modules/validate'
 
 class Script
 
@@ -22,6 +23,8 @@ class Script
 
   private
 
+  extend Validate
+
   def handle_initial_state_file
     initial_state_lines = File.readlines(initial_state_file)
     initial_state = initial_state_lines.map do |initial_state_line|
@@ -30,6 +33,8 @@ class Script
         initial_state_line_string.to_sym
       end
     end
+    self.class.validate_initial_state!(initial_state)
+    
     system("clear")
     greeting
     velocity = ask_velocity

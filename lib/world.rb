@@ -1,8 +1,8 @@
 require_relative 'location'
 require_relative 'live_cell'
 require_relative 'dead_cell'
-require_relative 'errors/invalid_initial_state'
 require_relative 'modules/inspect'
+require_relative 'modules/validate'
 
 class World
 
@@ -39,14 +39,10 @@ class World
 
   private
 
+  extend Validate  
+
   attr_reader :neighbor_map
   attr_accessor :cells
-
-  def self.validate_initial_state!(initial_state)
-    unless initial_state_is_valid?(initial_state)
-      raise InvalidInitialStateError
-    end
-  end
 
   def self.generate_cells(initial_state)
     cells = {}
@@ -66,6 +62,22 @@ class World
     cells
   end
 
+  def self.extract_dimensions(array)
+    height = array.length
+    width = array[0].length
+    [width, height]
+  end
+  
+  def generate_neighbor_map
+    neighbor_map = {}
+    coordinates = cells.keys
+    coordinates.each do |coordinate|
+      location = Location.new(coordinate: coordinate, dimensions: dimensions)
+      neighbor_map[coordinate] = location.neighbor_locations
+    end
+    neighbor_map
+  end
+
   def increment_generation
     @generation += 1
   end
@@ -80,54 +92,6 @@ class World
   def num_live_neighbors(location)
     neighbors = neighbors_of(location)
     neighbors.count { |neighbor| neighbor.live? }
-  end
-
-  def generate_neighbor_map
-    neighbor_map = {}
-    coordinates = cells.keys
-    coordinates.each do |coordinate|
-      location = Location.new(coordinate: coordinate, dimensions: dimensions)
-      neighbor_map[coordinate] = location.neighbor_locations
-    end
-    neighbor_map
-  end
-
-  def self.initial_state_is_valid?(initial_state)
-    return false unless initial_state
-  
-    flattened = initial_state.flatten
-    only_dead_or_live?(flattened) && is_equilateral?(initial_state)
-  end
-  
-  def self.only_dead_or_live?(cell_state_array)
-    cell_state_array.all? do |cell_state| 
-      cell_state == :live || cell_state == :dead
-    end
-  end
-
-  def self.is_equilateral?(array)
-    init_state_dimensionality = self.array_dimensionality(array)
-    case init_state_dimensionality
-    when 1
-      true
-    when 2
-      width = array[0].length
-      array.all? { |row| row.length == width }
-    else
-      array.all? { |inner_array| self.is_equilateral?(inner_array) }
-    end
-  end
-
-  def self.array_dimensionality(array, dimens_memo = 0)
-    return dimens_memo unless array.is_a?(Array)
-
-    inner_dimens = self.array_dimensionality(array.first, dimens_memo + 1)
-  end
-
-  def self.extract_dimensions(array)
-    height = array.length
-    width = array[0].length
-    [width, height]
   end
 
 end
