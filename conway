@@ -29,6 +29,10 @@ class Conway
   extend Examples
   extend ParseExample
 
+  def example_names
+    [:random] + self.class.example_names
+  end
+
   def handle_initial_state_file
     initial_state = self.class.parse_example(initial_state_file)
     self.class.validate_initial_state!(initial_state)
@@ -47,7 +51,11 @@ class Conway
     puts "Select initial state (select with up/down keys, select with " + 
       "return key):"
     
-    example_names = [:random] + self.class.example_names
+    render_examples
+    handle_input(read_input, example_names)
+  end
+
+  def render_examples
     example_names.each_with_index do |example_name, idx|
       if initial_state_idx == idx
         puts example_name.upcase
@@ -55,7 +63,6 @@ class Conway
         puts example_name
       end
     end
-    handle_input(read_input, example_names)
   end
 
   def handle_input(read_input, example_names)

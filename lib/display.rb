@@ -1,16 +1,18 @@
+require_relative 'location'
+
 class Display
 
   def initialize(attributes)
-    @world = attributes[:world]
-    @dimensions = @world.dimensions
+    @board = attributes[:board]
+    @dimensions = attributes[:dimensions]
   end
 
-  def render
+  def render(generation)
     result_string = ""
     height.times do |y|
       width.times do |x|
         location = Location.new(coordinate: [x, y], dimensions: [width, height])
-        result_string += cell_string_at(location)
+        result_string += board.to_s(location)
       end
       result_string += "\n"
     end
@@ -19,7 +21,7 @@ class Display
 
   private
 
-  attr_reader :world, :dimensions
+  attr_reader :board, :dimensions
 
   def width
     dimensions.first
@@ -27,18 +29,6 @@ class Display
 
   def height
     dimensions.last
-  end
-
-  def cell_at(location)
-    world.cell_at(location)
-  end
-
-  def cell_string_at(location)
-    cell_at(location).to_s
-  end
-
-  def generation
-    world.generation
   end
 
 end

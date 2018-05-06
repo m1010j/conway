@@ -1,3 +1,4 @@
+require_relative 'board'
 require_relative 'world'
 require_relative 'display'
 require_relative 'modules/examples'
@@ -6,9 +7,15 @@ class Game
 
   def initialize(attributes)
     initial_state = attributes[:initial_state]
-    @world = World.new(initial_state: initial_state)
+    dimensions = self.class.extract_dimensions(initial_state)
+    @board = Board.new(initial_state: initial_state)
+    @world = World.new(
+      initial_state: initial_state,
+      board: board,
+      dimensions: dimensions
+    )
+    @display = Display.new(board: board, dimensions: dimensions)
     @velocity = attributes[:velocity] || 0.5
-    @display = Display.new(world: @world)
   end
 
   def self.make_random(attributes = {})
@@ -46,7 +53,13 @@ class Game
 
   extend Examples  
 
-  attr_reader :world, :display, :velocity
+  attr_reader :board, :world, :display, :velocity
+
+  def self.extract_dimensions(array)
+    height = array.length
+    width = array[0].length
+    [width, height]
+  end
 
   def self.random(dimensions)
     states = [:live, :dead]
@@ -56,7 +69,8 @@ class Game
   end
 
   def render
-    display.render
+    generation = world.generation
+    display.render(generation)
   end
   
   def tick!
