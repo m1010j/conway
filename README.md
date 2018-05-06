@@ -35,7 +35,7 @@
 
     d. **Fewest elements**
 
-    * Eschews any code not mandated by the other three rules.
+    * Eschews any code not mandated by the first three rules.
 
 5.  #### Exemplifies [SOLID Principles](https://subvisual.co/blog/posts/19-solid-principles-in-ruby/):
 
@@ -53,7 +53,7 @@
 
     d. **<i>I</i>nterface segregation principle**
 
-    * Minimizes classes that depended upon by multiple classes.
+    * Minimizes classes that are depended upon by multiple classes.
 
     e. **<i>D</i>ependency inversion principle**
 
@@ -65,7 +65,7 @@
     ```console
     $ git clone https://github.com/m1010j/conway.git && cd conway/
     ```
-2.  a. Select one of the built-in example worlds:
+2.  a. Run `conway` script without any arguments and select one of the built-in example worlds:
 
     ```console
     $ ./conway
@@ -96,8 +96,11 @@
       $ ./conway octagon.txt
       ```
 
+3.  Quit at any point with `Ctrl`+`C`.
+
 ## Future directions
 
+* ⚡️ Improve performance by avoiding checking cells that don't need to be checked in a given tick.
 * 📜 Incorporate alternative rule sets.
 * 🌏 Allow one- and three-dimensional worlds. The foundations for this are laid by the way the `Location` class calculates the deltas:
   ```ruby
@@ -116,9 +119,9 @@
     @deltas
   end
   ```
+* ✨ Add more example worlds, group them into categories.
 * 📈 Allow worlds to grow unboundedly.
 * 🖥 Create UI to select a world's initial state without relying on text files.
-* ⚡️ Improve performance by avoiding checking cells that don't need to be checked for a given tick.
 
 ### License
 
