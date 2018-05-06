@@ -4,6 +4,13 @@
 
 ![pulsar-demo](./media/pulsar-demo.gif 'Pulsar Demo')
 
+### Contents
+
+1.  [Features](#features)
+2.  [Installation and use](#installation-and-use)
+3.  [Future directions](#future-directions)
+4.  [License](#license)
+
 ### Features
 
 1.  #### Development was driven by an emphasis on reliability, maintainability, and extensibility.
@@ -69,25 +76,48 @@
 
     * Generate [plain text](./octagon.txt) file where `dead` represents a dead cell and `live` a live one:
 
-    ```console
-    $ line0="dead dead dead dead dead dead dead dead dead dead"
-    $ line1="dead dead dead dead dead dead dead dead dead dead"
-    $ line2="dead dead dead live live live live dead dead dead"
-    $ line3="dead dead live dead live live dead live dead dead"
-    $ line4="dead dead live live dead dead live live dead dead"
-    $ line5="dead dead live live dead dead live live dead dead"
-    $ line6="dead dead live dead live live dead live dead dead"
-    $ line7="dead dead dead live live live live dead dead dead"
-    $ line8="dead dead dead dead dead dead dead dead dead dead"
-    $ line9="dead dead dead dead dead dead dead dead dead dead"
-    $ octagon="$line0\n$line1\n$line2\n$line3\n$line4\n$line5\n$line6\n$line7\n$line8\n$line9"
-    $ echo -e $octagon > ./octagon.txt
-    ```
+      ```console
+      $ line0="dead dead dead dead dead dead dead dead dead dead"
+      $ line1="dead dead dead dead dead dead dead dead dead dead"
+      $ line2="dead dead dead live live live live dead dead dead"
+      $ line3="dead dead live dead live live dead live dead dead"
+      $ line4="dead dead live live dead dead live live dead dead"
+      $ line5="dead dead live live dead dead live live dead dead"
+      $ line6="dead dead live dead live live dead live dead dead"
+      $ line7="dead dead dead live live live live dead dead dead"
+      $ line8="dead dead dead dead dead dead dead dead dead dead"
+      $ line9="dead dead dead dead dead dead dead dead dead dead"
+      $ octagon="$line0\n$line1\n$line2\n$line3\n$line4\n$line5\n$line6\n$line7\n$line8\n$line9"
+      $ echo -e $octagon > ./octagon.txt
+      ```
 
     * Run `conway` with this file as an argument:
 
-    ```console
-    $ ./conway octagon.txt
-    ```
+      ```console
+      $ ./conway octagon.txt
+      ```
 
-### [License](./LICENSE)
+## Future directions
+
+* Incorporate alternative rule sets.
+* Allow one- and three-dimensional worlds. The foundations for this are laid by the way the `Location` class calculates the deltas:
+  ```ruby
+  def self.deltas(dimensions)
+    unless @deltas
+      dimensionality = dimensions.length
+      negative_ones = Array.new(dimensionality) { -1 }
+      zeroes = Array.new(dimensionality) { 0 }
+      ones = Array.new(dimensionality) { 1 }
+      base_numbers = negative_ones + zeroes + ones
+      delta_perms = base_numbers.permutation(dimensionality).to_a
+      unique_deltas = delta_perms.uniq
+      zero_delta = Array.new(dimensionality) { 0 }
+      @deltas = unique_deltas - [zero_delta]
+    end
+    @deltas
+  end
+  ```
+
+### License
+
+[Unlicense](./LICENSE)
