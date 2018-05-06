@@ -99,8 +99,8 @@
 
 ## Future directions
 
-* Incorporate alternative rule sets.
-* Allow one- and three-dimensional worlds. The foundations for this are laid by the way the `Location` class calculates the deltas:
+* 📜 Incorporate alternative rule sets.
+* 🌏 Allow one- and three-dimensional worlds. The foundations for this are laid by the way the `Location` class calculates the deltas:
   ```ruby
   def self.deltas(dimensions)
     unless @deltas
@@ -117,6 +117,9 @@
     @deltas
   end
   ```
+* 📈 Allow worlds to grow unboundedly.
+* 🖥 Create UI to select a world's initial state without relying on text files.
+* ⚡️ Improve performance by avoiding checking cells that don't need to be checked for a given tick.
 
 ### License
 
