@@ -4,7 +4,6 @@ require_relative 'display'
 require_relative 'modules/examples'
 
 class Game
-
   def initialize(attributes)
     initial_state = attributes[:initial_state]
     dimensions = self.class.extract_dimensions(initial_state)
@@ -25,11 +24,9 @@ class Game
   end
 
   private
-
   extend Examples
 
   public
-
   examples = self.examples
   examples.keys.each do |example_key|
     define_singleton_method("make_#{example_key}") do |attributes = {}|
@@ -49,9 +46,7 @@ class Game
   end
     
   private
-
   extend Examples  
-
   attr_reader :board, :world, :display, :velocity
 
   def self.extract_dimensions(array)

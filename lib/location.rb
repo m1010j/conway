@@ -1,9 +1,7 @@
 require_relative 'modules/inspect'
 
 class Location
-
   include Inspect
-
   attr_reader :coordinate
 
   def initialize(attributes)
@@ -26,7 +24,6 @@ class Location
   end
 
   private
-
   attr_reader :dimensions
 
   def neighbor_coordinates
@@ -60,5 +57,4 @@ class Location
     end
     @deltas
   end
-
 end

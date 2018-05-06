@@ -1,7 +1,6 @@
 require_relative 'parse_example'
 
 module Examples
-
   include ParseExample
 
   def examples
@@ -19,5 +18,4 @@ module Examples
   def example_names
     examples.keys.sort
   end
-
 end

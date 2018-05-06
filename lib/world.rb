@@ -1,9 +1,7 @@
 require_relative 'location'
 
 class World
-
   include Inspect
-
   attr_reader :generation
 
   def initialize(attributes)
@@ -29,7 +27,6 @@ class World
   end
 
   private
-
   attr_reader :dimensions, :neighbor_map
   attr_accessor :board
   
@@ -57,5 +54,4 @@ class World
   def live_after_tick?(board, location, num_live_neighbors)
     board.live_after_tick?(location, num_live_neighbors)
   end
-
 end

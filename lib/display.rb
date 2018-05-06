@@ -1,7 +1,6 @@
 require_relative 'location'
 
 class Display
-
   def initialize(attributes)
     @board = attributes[:board]
     @dimensions = attributes[:dimensions]
@@ -20,7 +19,6 @@ class Display
   end
 
   private
-
   attr_reader :board, :dimensions
 
   def width
@@ -30,5 +28,4 @@ class Display
   def height
     dimensions.last
   end
-
 end

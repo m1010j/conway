@@ -1,7 +1,6 @@
 require_relative '../errors/invalid_initial_state'
 
 module Validate
-
   def validate_initial_state!(initial_state)
     unless initial_state_is_valid?(initial_state)
       raise InvalidInitialStateError
@@ -39,5 +38,4 @@ module Validate
 
     array_dimensionality(array.first, dimensionality_memo + 1)
   end
-
 end

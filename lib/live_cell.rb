@@ -2,7 +2,6 @@ require 'singleton'
 require_relative 'modules/cell'
 
 class LiveCell
-
   include Singleton
   include Cell
 
@@ -14,5 +13,4 @@ class LiveCell
     # '😁 '
     "\u{1f601} "
   end
-
 end

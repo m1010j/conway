@@ -3,7 +3,6 @@ require_relative 'live_cell'
 require_relative 'dead_cell'
 
 class Board
-
   def initialize(attributes)
     initial_state = attributes[:initial_state]
     self.class.validate_initial_state!(initial_state)
@@ -45,11 +44,9 @@ class Board
   end
 
   protected
-
   attr_accessor :board  
 
   private
-
   extend Validate    
 
   def self.generate_board(initial_state)
@@ -66,5 +63,4 @@ class Board
   def cell_at(location)
     board[location.coordinate]
   end
-
 end
