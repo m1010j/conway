@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
 require 'io/console'
-require_relative '../lib/game.rb'
-require_relative '../lib/modules/validate'
-require_relative '../lib/modules/examples'
-require_relative '../lib/modules/parse_example'
+require_relative 'lib/game.rb'
+require_relative 'lib/modules/validate'
+require_relative 'lib/modules/examples'
+require_relative 'lib/modules/parse_example'
 
-class Script
+class Conway
 
   attr_accessor :initial_state_idx, :initial_state_file, :dimensions, :velocity
 
@@ -149,6 +149,6 @@ end
 
 if $PROGRAM_NAME == __FILE__
   initial_state_file = ARGV.first
-  script = Script.new(initial_state_file: initial_state_file)
-  script.start
+  conway = Conway.new(initial_state_file: initial_state_file)
+  conway.start
 end

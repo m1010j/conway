@@ -1,9 +1,8 @@
 require_relative 'world'
 require_relative 'display'
-require_relative 'examples/examples'
-class Game
+require_relative 'modules/examples'
 
-  extend Examples
+class Game
 
   def initialize(attributes)
     initial_state = attributes[:initial_state]
@@ -17,6 +16,12 @@ class Game
     attributes[:initial_state] = self.random(dimensions)
     self.new(attributes)
   end
+
+  private
+
+  extend Examples
+
+  public
 
   examples = self.examples
   examples.keys.each do |example_key|
@@ -41,6 +46,8 @@ class Game
   end
     
   private
+
+  extend Examples  
 
   attr_reader :world, :display, :velocity
 

@@ -1,7 +1,7 @@
 require 'game'
 require 'world'
 require 'display'
-require 'examples/examples'
+require 'modules/examples'
 
 include Examples
 
@@ -21,7 +21,6 @@ describe Game do
   end
 
   describe '.make_#{example_name}' do
-    let(:example_names) { self.examples.keys }
 
     it 'has factory methods for all examples' do
       example_names.each do |example_name|
