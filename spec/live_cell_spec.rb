@@ -1,7 +1,6 @@
 require 'live_cell'
 
 describe LiveCell do
-
   subject(:cell) { LiveCell.instance }
 
   describe '#live?' do
@@ -38,5 +37,4 @@ describe LiveCell do
       end
     end
   end
-
 end

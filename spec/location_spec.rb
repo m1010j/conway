@@ -15,14 +15,12 @@ describe Location do
   end
 
   describe '#neighbor_locations' do
-
     it 'should return location objects' do
       neighbor_locations = location.neighbor_locations
       expect(neighbor_locations).to all( be_a(Location) )
     end
     
     context 'when neighbors are in range' do
-
       it 'should return locations with the correct coordinate' do
         neighbor_locations = location.neighbor_locations
 
@@ -45,7 +43,6 @@ describe Location do
     end
 
     context 'when neighbors are out of range' do 
-
       let(:top_left_location) { Location.new(
         coordinate: [0, 0], 
         dimensions: dimensions
@@ -56,7 +53,6 @@ describe Location do
       ) }
 
       it 'should wrap around' do
-
         top_left_neighbor_locations = top_left_location.neighbor_locations
         top_left_neighbor_coordinates = top_left_neighbor_locations
           .map do |neighbor_location|
@@ -90,18 +86,6 @@ describe Location do
           [8, 7]
         ])
       end
-
     end
-
   end
-
-end
-
-private
-
-def extract_coordinates(location)
-  coordinates = location.coordinate
-  x = coordinates.first
-  y = coordinates.last
-  [x, y]
 end

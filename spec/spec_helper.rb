@@ -98,3 +98,53 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
+
+def initial_state
+  [
+    [:dead, :live, :dead, :dead, :dead],
+    [:dead, :dead, :live, :dead, :dead],
+    [:live, :live, :live, :dead, :dead],
+    [:dead, :dead, :dead, :dead, :dead],
+    [:dead, :dead, :dead, :dead, :dead]
+  ]
+end
+
+def coordinates
+  range = (0..4)
+  coordinates = [];
+  range.each do |x|
+    range.each do |y|
+      coordinates.push([x, y])
+    end
+  end
+  coordinates
+end
+
+coordinates.each do |coordinate|
+  first = coordinate.first
+  last = coordinate.last
+  define_method("location_#{first}_#{last}") do
+    double("Location #{first}, #{last}", coordinate: coordinate)
+  end
+end
+
+def check_live_at(board, true_coordinates)
+  false_coordinates = coordinates - true_coordinates
+  true_coordinates.each do |coordinate|
+    expect(board.live_at?(
+      send("location_#{coordinate.first}_#{coordinate.last}")
+    )).to be(true)
+  end
+  false_coordinates.each do |coordinate|
+    expect(board.live_at?(
+      send("location_#{coordinate.first}_#{coordinate.last}")
+    )).to be(false)
+  end
+end
+
+def extract_coordinates(location)
+  coordinates = location.coordinate
+  x = coordinates.first
+  y = coordinates.last
+  [x, y]
+end

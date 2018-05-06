@@ -1,7 +1,6 @@
 require 'dead_cell'
 
 describe DeadCell do
-
   subject(:cell) { DeadCell.instance }
 
   describe '#live?' do
@@ -36,5 +35,4 @@ describe DeadCell do
       end
     end
   end
-
 end
