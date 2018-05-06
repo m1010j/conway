@@ -1,4 +1,5 @@
 require 'world'
+require 'board'
 
 describe World do
   
@@ -11,7 +12,12 @@ describe World do
       [:dead, :dead, :dead, :dead, :dead],
     ]
   }
-  subject(:world) { World.new(initial_state: initial_state) }
+  let(:board) { Board.new(initial_state: initial_state) }
+  subject(:world) { World.new(
+    initial_state: initial_state,
+    board: board,
+    dimensions: [5, 5]
+  ) }
   let(:location_0_0) { double("Location 0, 0", coordinate: [0, 0]) }
   let(:location_0_1) { double("Location 0, 1", coordinate: [0, 1]) }
   let(:location_0_2) { double("Location 0, 2", coordinate: [0, 2]) }
@@ -38,70 +44,9 @@ describe World do
   let(:location_4_3) { double("Location 4, 3", coordinate: [4, 3]) }
   let(:location_4_4) { double("Location 4, 4", coordinate: [4, 4]) }
 
-  describe '#initialize' do
-    it "throws error if initial state isn't equilateral" do
-      invalid_initial_state = [
-        [:dead, :live, :dead, :dead],
-        [:dead, :dead, :live, :dead, :dead],
-        [:live, :live, :live, :dead, :dead],
-        [:dead, :dead, :dead, :dead, :dead],
-        [:dead, :dead, :dead, :dead, :dead],
-      ]
-      expect { World.new(initial_state: invalid_initial_state) }.
-        to raise_error(InvalidInitialStateError)
-    end
-    it "throws error if initial state contains invalid states" do
-      invalid_initial_state = [
-        [:dead, :live, :dead, :dead, :schroedinger],
-        [:dead, :dead, :live, :dead, :dead],
-        [:live, :live, :live, :dead, :dead],
-        [:dead, :dead, :dead, :dead, :dead],
-        [:dead, :dead, :dead, :dead, :dead],
-      ]
-      expect { World.new(initial_state: invalid_initial_state) }.
-        to raise_error(InvalidInitialStateError)
-    end
-  end
-
   describe '#generation' do
     it 'starts out at 0' do
       expect(world.generation).to eq(0)
-    end
-  end
-
-  describe '#dimensions' do
-    it "returns world's dimensions" do
-      expect(world.dimensions).to eq([5, 5])
-    end
-  end
-
-  describe '#cell_at' do
-    it 'returns cell type specified by initial state' do
-      expect(world.cell_at(location_0_0)).not_to be_live
-      expect(world.cell_at(location_0_1)).not_to be_live
-      expect(world.cell_at(location_0_2)).to be_live
-      expect(world.cell_at(location_0_3)).not_to be_live
-      expect(world.cell_at(location_0_4)).not_to be_live
-      expect(world.cell_at(location_1_0)).to be_live
-      expect(world.cell_at(location_1_1)).not_to be_live
-      expect(world.cell_at(location_1_2)).to be_live
-      expect(world.cell_at(location_1_3)).not_to be_live
-      expect(world.cell_at(location_1_4)).not_to be_live
-      expect(world.cell_at(location_2_0)).not_to be_live
-      expect(world.cell_at(location_2_1)).to be_live
-      expect(world.cell_at(location_2_2)).to be_live
-      expect(world.cell_at(location_2_3)).not_to be_live
-      expect(world.cell_at(location_2_4)).not_to be_live
-      expect(world.cell_at(location_3_0)).not_to be_live
-      expect(world.cell_at(location_3_1)).not_to be_live
-      expect(world.cell_at(location_3_2)).not_to be_live
-      expect(world.cell_at(location_3_3)).not_to be_live
-      expect(world.cell_at(location_3_4)).not_to be_live
-      expect(world.cell_at(location_4_0)).not_to be_live
-      expect(world.cell_at(location_4_1)).not_to be_live
-      expect(world.cell_at(location_4_2)).not_to be_live
-      expect(world.cell_at(location_4_3)).not_to be_live
-      expect(world.cell_at(location_4_4)).not_to be_live
     end
   end
 
@@ -117,62 +62,63 @@ describe World do
     context "when cells don't wrap around" do
       it 'modifies world according to rules' do
         world.tick!
-        expect(world.cell_at(location_0_0)).not_to be_live
-        expect(world.cell_at(location_0_1)).to be_live
-        expect(world.cell_at(location_0_2)).not_to be_live
-        expect(world.cell_at(location_0_3)).not_to be_live
-        expect(world.cell_at(location_0_4)).not_to be_live
-        expect(world.cell_at(location_1_0)).not_to be_live
-        expect(world.cell_at(location_1_1)).not_to be_live
-        expect(world.cell_at(location_1_2)).to be_live
-        expect(world.cell_at(location_1_3)).to be_live
-        expect(world.cell_at(location_1_4)).not_to be_live
-        expect(world.cell_at(location_2_0)).not_to be_live
-        expect(world.cell_at(location_2_1)).to be_live
-        expect(world.cell_at(location_2_2)).to be_live
-        expect(world.cell_at(location_2_3)).not_to be_live
-        expect(world.cell_at(location_2_4)).not_to be_live
-        expect(world.cell_at(location_3_0)).not_to be_live
-        expect(world.cell_at(location_3_1)).not_to be_live
-        expect(world.cell_at(location_3_2)).not_to be_live
-        expect(world.cell_at(location_3_3)).not_to be_live
-        expect(world.cell_at(location_3_4)).not_to be_live
-        expect(world.cell_at(location_4_0)).not_to be_live
-        expect(world.cell_at(location_4_1)).not_to be_live
-        expect(world.cell_at(location_4_2)).not_to be_live
-        expect(world.cell_at(location_4_3)).not_to be_live
-        expect(world.cell_at(location_4_4)).not_to be_live
+        board = world.send(:board)
+        expect(board.live_at?(location_0_0)).to be(false)
+        expect(board.live_at?(location_0_1)).to be(true)
+        expect(board.live_at?(location_0_2)).to be(false)
+        expect(board.live_at?(location_0_3)).to be(false)
+        expect(board.live_at?(location_0_4)).to be(false)
+        expect(board.live_at?(location_1_0)).to be(false)
+        expect(board.live_at?(location_1_1)).to be(false)
+        expect(board.live_at?(location_1_2)).to be(true)
+        expect(board.live_at?(location_1_3)).to be(true)
+        expect(board.live_at?(location_1_4)).to be(false)
+        expect(board.live_at?(location_2_0)).to be(false)
+        expect(board.live_at?(location_2_1)).to be(true)
+        expect(board.live_at?(location_2_2)).to be(true)
+        expect(board.live_at?(location_2_3)).to be(false)
+        expect(board.live_at?(location_2_4)).to be(false)
+        expect(board.live_at?(location_3_0)).to be(false)
+        expect(board.live_at?(location_3_1)).to be(false)
+        expect(board.live_at?(location_3_2)).to be(false)
+        expect(board.live_at?(location_3_3)).to be(false)
+        expect(board.live_at?(location_3_4)).to be(false)
+        expect(board.live_at?(location_4_0)).to be(false)
+        expect(board.live_at?(location_4_1)).to be(false)
+        expect(board.live_at?(location_4_2)).to be(false)
+        expect(board.live_at?(location_4_3)).to be(false)
+        expect(board.live_at?(location_4_4)).to be(false)
       end
     end
     context "when cells do wrap around" do
       it 'modifies world according to rules, wrapping cells around' do
         world.tick!
         world.tick!
-        expect(world.cell_at(location_0_0)).not_to be_live
-        expect(world.cell_at(location_0_1)).not_to be_live
-        expect(world.cell_at(location_0_2)).to be_live
-        expect(world.cell_at(location_0_3)).not_to be_live
-        expect(world.cell_at(location_0_4)).not_to be_live
-        expect(world.cell_at(location_1_0)).not_to be_live
-        expect(world.cell_at(location_1_1)).not_to be_live
-        expect(world.cell_at(location_1_2)).not_to be_live
-        expect(world.cell_at(location_1_3)).to be_live
-        expect(world.cell_at(location_1_4)).not_to be_live
-        expect(world.cell_at(location_2_0)).not_to be_live
-        expect(world.cell_at(location_2_1)).to be_live
-        expect(world.cell_at(location_2_2)).to be_live
-        expect(world.cell_at(location_2_3)).to be_live
-        expect(world.cell_at(location_2_4)).not_to be_live
-        expect(world.cell_at(location_3_0)).not_to be_live
-        expect(world.cell_at(location_3_1)).not_to be_live
-        expect(world.cell_at(location_3_2)).not_to be_live
-        expect(world.cell_at(location_3_3)).not_to be_live
-        expect(world.cell_at(location_3_4)).not_to be_live
-        expect(world.cell_at(location_4_0)).not_to be_live
-        expect(world.cell_at(location_4_1)).not_to be_live
-        expect(world.cell_at(location_4_2)).not_to be_live
-        expect(world.cell_at(location_4_3)).not_to be_live
-        expect(world.cell_at(location_4_4)).not_to be_live
+        expect(board.live_at?(location_0_0)).to be(false)
+        expect(board.live_at?(location_0_1)).to be(false)
+        expect(board.live_at?(location_0_2)).to be(true)
+        expect(board.live_at?(location_0_3)).to be(false)
+        expect(board.live_at?(location_0_4)).to be(false)
+        expect(board.live_at?(location_1_0)).to be(false)
+        expect(board.live_at?(location_1_1)).to be(false)
+        expect(board.live_at?(location_1_2)).to be(false)
+        expect(board.live_at?(location_1_3)).to be(true)
+        expect(board.live_at?(location_1_4)).to be(false)
+        expect(board.live_at?(location_2_0)).to be(false)
+        expect(board.live_at?(location_2_1)).to be(true)
+        expect(board.live_at?(location_2_2)).to be(true)
+        expect(board.live_at?(location_2_3)).to be(true)
+        expect(board.live_at?(location_2_4)).to be(false)
+        expect(board.live_at?(location_3_0)).to be(false)
+        expect(board.live_at?(location_3_1)).to be(false)
+        expect(board.live_at?(location_3_2)).to be(false)
+        expect(board.live_at?(location_3_3)).to be(false)
+        expect(board.live_at?(location_3_4)).to be(false)
+        expect(board.live_at?(location_4_0)).to be(false)
+        expect(board.live_at?(location_4_1)).to be(false)
+        expect(board.live_at?(location_4_2)).to be(false)
+        expect(board.live_at?(location_4_3)).to be(false)
+        expect(board.live_at?(location_4_4)).to be(false)
       end
     end
   end

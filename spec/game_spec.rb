@@ -11,11 +11,12 @@ describe Game do
     let(:five_by_five_random_game) { Game.make_random(dimensions: [5, 5]) }
 
     it 'by default makes random 10x10 game' do
-      expect(default_random_game.send(:world).dimensions).to eq([10, 10])
+      expect(default_random_game.send(:world).send(:dimensions)).to eq([10, 10])
     end
 
     it 'makes random game of size specified' do
-      expect(five_by_five_random_game.send(:world).dimensions).to eq([5, 5])
+      world_dimensions = five_by_five_random_game.send(:world).send(:dimensions)
+      expect(world_dimensions).to eq([5, 5])
     end
   end
 

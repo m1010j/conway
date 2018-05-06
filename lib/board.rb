@@ -11,6 +11,10 @@ class Board
     @board = self.class.generate_board(initial_state)
   end
 
+  def coordinates
+    board.keys
+  end
+
   def live_at?(location)
     cell = cell_at(location)
     cell.live?
@@ -32,10 +36,6 @@ class Board
   def to_s(location)
     cell = cell_at(location)
     cell.to_s
-  end
-
-  def coordinates
-    board.keys
   end
 
   def deep_dup

@@ -1,5 +1,5 @@
 require 'display'
-require 'world'
+require 'board'
 
 describe Display do
 
@@ -9,13 +9,13 @@ describe Display do
       [:dead, :dead, :dead],
     ]
   }
-  let(:world) { World.new(initial_state: initial_state) }
-  subject(:display) { Display.new(world: world) }
+  let(:board) { Board.new(initial_state: initial_state) }
+  subject(:display) { Display.new(board: board, dimensions: [3, 2]) }
 
 
   describe '#render' do
     it 'renders two-dimensional grid' do
-      expect(display.render).to eq(
+      expect(display.render(0)).to eq(
         "\u{1f601} \u{1f480} \u{1f480} \n\u{1f480} \u{1f480} \u{1f480} \n" +
         "Generation: 0"
       )
