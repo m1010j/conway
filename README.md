@@ -23,7 +23,7 @@
 
     a. **Passes the tests**
 
-    * Includes 30 unit and integration tests to ensure reliability.
+    * Includes thirty RSpec unit and integration tests.
 
     b. **Reveals intention**
 
