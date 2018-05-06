@@ -63,8 +63,7 @@
 
 1.  Download the repo and `cd` into it:
     ```console
-    $ git clone https://github.com/m1010j/conway.git
-    $ cd conway
+    $ git clone https://github.com/m1010j/conway.git && cd conway/
     ```
 2.  a. Select one of the built-in example worlds:
 
