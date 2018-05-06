@@ -39,7 +39,7 @@ class Board
   end
 
   def deep_dup
-    duped = self.dup
+    duped = dup
     duped.board = board.dup
     duped
   end

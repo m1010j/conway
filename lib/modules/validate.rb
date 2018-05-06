@@ -37,7 +37,7 @@ module Validate
   def array_dimensionality(array, dimensionality_memo = 0)
     return dimensionality_memo unless array.is_a?(Array)
 
-    inner_dimens = array_dimensionality(array.first, dimensionality_memo + 1)
+    array_dimensionality(array.first, dimensionality_memo + 1)
   end
 
 end

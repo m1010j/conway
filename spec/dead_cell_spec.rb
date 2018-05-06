@@ -9,12 +9,6 @@ describe DeadCell do
       expect(cell.live?).to eq(false)
     end
   end
-
-  describe '#dead?' do
-    it 'returns false' do
-      expect(cell.dead?).to eq(true)
-    end
-  end
     
   describe '#to_s' do
     it 'returns skull emoji string' do

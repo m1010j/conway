@@ -7,8 +7,6 @@ class World
   attr_reader :generation
 
   def initialize(attributes)
-    initial_state = attributes[:initial_state]
-    
     @dimensions = attributes[:dimensions]
     @board = attributes[:board]
     @neighbor_map = generate_neighbor_map

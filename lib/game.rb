@@ -20,8 +20,8 @@ class Game
 
   def self.make_random(attributes = {})
     dimensions = attributes[:dimensions] || [10, 10]
-    attributes[:initial_state] = self.random(dimensions)
-    self.new(attributes)
+    attributes[:initial_state] = random(dimensions)
+    new(attributes)
   end
 
   private
@@ -35,7 +35,7 @@ class Game
     define_singleton_method("make_#{example_key}") do |attributes = {}|
       example = examples[example_key]
       attributes[:initial_state] = example
-      self.new(attributes)
+      new(attributes)
     end
   end
   
@@ -47,7 +47,6 @@ class Game
       sleep(velocity)
     end
   end
-
     
   private
 

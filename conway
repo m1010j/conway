@@ -4,9 +4,12 @@ require 'io/console'
 require_relative 'lib/game.rb'
 require_relative 'lib/modules/validate'
 require_relative 'lib/modules/examples'
+require_relative 'lib/modules/read_input'
 require_relative 'lib/modules/parse_example'
 
 class Conway
+
+  include ReadInput
 
   attr_accessor :initial_state_idx, :initial_state_file, :dimensions, :velocity
 
@@ -37,7 +40,7 @@ class Conway
     initial_state = self.class.parse_example(initial_state_file)
     self.class.validate_initial_state!(initial_state)
 
-    system("clear")
+    system('clear')
     greeting
     velocity = ask_velocity
     game = Game.new(initial_state: initial_state, velocity: velocity)
@@ -45,11 +48,11 @@ class Conway
   end
 
   def ask_initial_state
-    system("clear")
+    system('clear')
     greeting
-    puts ""
-    puts "Select initial state (select with up/down keys, select with " + 
-      "return key):"
+    puts ''
+    puts 'Select initial state (select with up/down keys, select with ' + 
+      'return key):'
     
     render_examples
     handle_input(read_input, example_names)
@@ -67,21 +70,21 @@ class Conway
 
   def handle_input(read_input, example_names)
     case read_input
-    when "\e[A"
+    when '\e[A'
       self.initial_state_idx = 
-        (self.initial_state_idx - 1) % example_names.length
+        (initial_state_idx - 1) % example_names.length
       ask_initial_state
-    when "\e[B"
+    when '\e[B'
       self.initial_state_idx = 
-        (self.initial_state_idx + 1) % example_names.length
+        (initial_state_idx + 1) % example_names.length
       ask_initial_state
     when "\r"
       if initial_state_idx == 0
         ask_whether_keep_default_dimensions
       else
         game = Game.send(
-          "make_#{example_names[initial_state_idx]}", 
-          { velocity: ask_velocity }
+          "make_#{example_names[initial_state_idx]}",
+          velocity: ask_velocity
         )
         game.start!
       end
@@ -89,14 +92,14 @@ class Conway
   end
 
   def ask_whether_keep_default_dimensions
-    puts ""
-    puts "By default, a random game has 10x10 cells."
-    puts "Do you want to change these dimensions? (y/n)"
+    puts ''
+    puts 'By default, a random game has 10x10 cells.'
+    puts 'Do you want to change these dimensions? (y/n)'
     response = STDIN.gets.chomp
-    if response == "n"
+    if response == 'n'
       game = Game.make_random(velocity: ask_velocity)
       game.start!
-    elsif response == "y"
+    elsif response == 'y'
       dimensions = ask_dimensions
       game = Game.make_random(dimensions: dimensions, velocity: ask_velocity)
       game.start!
@@ -106,23 +109,23 @@ class Conway
   end
 
   def ask_dimensions
-    puts ""
-    puts "Enter game width:"
+    puts ''
+    puts 'Enter game width:'
     width = STDIN.gets.chomp.to_i
-    puts "Enter game height:"
+    puts 'Enter game height:'
     height = STDIN.gets.chomp.to_i
     [width, height]
   end
   
   def ask_velocity
-    puts ""
-    puts "By default, the game ticks every 0.5 seconds."
-    puts "Do you want to change this? (y/n)"
+    puts ''
+    puts 'By default, the game ticks every 0.5 seconds.'
+    puts 'Do you want to change this? (y/n)'
     response = STDIN.gets.chomp
-    if response == "n"
+    if response == 'n'
       nil
-    elsif response == "y"
-      puts "How often do you want the game to tick, in seconds?"
+    elsif response == 'y'
+      puts 'How often do you want the game to tick, in seconds?'
       STDIN.gets.chomp.to_f
     else 
       ask_velocity
@@ -139,23 +142,6 @@ class Conway
    \_____|\__,_|_| |_| |_|\___|  \___/|_|   |______|_|_| \___|          
   😁💀😁💀😁💀😁💀😁💀😁💀😁💀😁💀😁💀😁💀😁💀😁💀😁💀😁💀😁💀
     EOF
-  end
-
-  def read_input
-    # This method is adapted from here: https://gist.github.com/acook/4190379
-    STDIN.echo = false
-    STDIN.raw!
-  
-    input = STDIN.getc.chr
-    if input == "\e" then
-      input << STDIN.read_nonblock(3) rescue nil
-      input << STDIN.read_nonblock(2) rescue nil
-    end
-  ensure
-    STDIN.echo = true
-    STDIN.cooked!
-  
-    return input
   end
 
 end
