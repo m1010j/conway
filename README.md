@@ -17,7 +17,7 @@
 
 2.  #### Contains thirteen worlds, generates random worlds of arbitrary size, and reads in plain text worlds.
 
-3.  #### Handles out of range cells by wrapping them around the world.
+3.  #### Handles out of range cells by wrapping them around the toroidal world.
 
 4.  #### Exemplifies [Kent Beck's Four Rules of Design](https://martinfowler.com/bliki/BeckDesignRules.html):
 
