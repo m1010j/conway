@@ -43,8 +43,7 @@ describe Game do
         [:dead, :dead, :dead],
       ]
     }
-    let(:world) { World.new(initial_state: initial_state) }
-    subject(:game) { Game.new(world: world)}
+    subject(:game) { Game.new(initial_state: initial_state)}
     
     it 'renders two-dimensional grid' do
       expect(game.render).to eq(

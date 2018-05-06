@@ -15,7 +15,6 @@ class Game
   def self.make_random(attributes = {})
     dimensions = attributes[:dimensions] || [10, 10]
     attributes[:initial_state] = self.random(dimensions)
-    attributes[:world] = world
     self.new(attributes)
   end
 
