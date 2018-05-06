@@ -1,8 +1,8 @@
 class InvalidInitialStateError < ArgumentError
   
   def msg
-    "Initial state must be a non-empty array all of whose members are" +
-      "non-empty arrays of equal length that only contain :live or :dead symbols"
+    "Initial state must be an equilateral two-dimensional grid of 'dead' and" +
+      " 'alive' cells"
   end
 
 end

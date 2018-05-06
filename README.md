@@ -23,7 +23,7 @@
 
     a. **Passes the tests**
 
-    * Includes thirty RSpec unit and integration tests.
+    * Includes twenty-nine RSpec unit and integration tests.
 
     b. **Reveals intention**
 
@@ -101,7 +101,7 @@
 ## Future directions
 
 * ⚡️ Improve performance by avoiding checking cells that don't need to be checked in a given tick.
-* 📜 Incorporate alternative rule sets.
+* 📜 Incorporate alternative rule sets. The foundations for this are laid by the dedicated `Rules` module.
 * 🌏 Allow one- and three-dimensional worlds. The foundations for this are laid by the way the `Location` class calculates the deltas:
   ```ruby
   def self.deltas(dimensions)
@@ -119,9 +119,38 @@
     @deltas
   end
   ```
-* ✨ Add more example worlds, group them into categories.
+* ✨ Add more example worlds, group them into categories. The foundations for this are laid by the way the `Game` class dynamically generates its own class methods based on the contents of the `./examples` directory and by the way the `Conway` class dynamically renders the list of examples:
+
+  ```ruby
+  # game.rb
+
+  examples = self.examples
+  examples.keys.each do |example_key|
+    define_singleton_method("make_#{example_key}") do |attributes = {}|
+      example = examples[example_key]
+      attributes[:initial_state] = example
+      self.new(attributes)
+    end
+  end
+  ```
+
+  ```ruby
+  # conway
+
+  def render_examples
+    example_names = [:random] + self.class.example_names
+    example_names.each_with_index do |example_name, idx|
+      if initial_state_idx == idx
+        puts example_name.upcase
+      else
+        puts example_name
+      end
+    end
+  end
+  ```
+
 * 📈 Allow worlds to grow unboundedly.
-* 🖥 Create UI to select a world's initial state without relying on text files.
+* 🖥 Create UI to select a world's initial state without relying on text files. The foundations for this are laid by the dedicated `Display` class.
 
 ### License
 

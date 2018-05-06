@@ -34,16 +34,13 @@ class Game
   
   def start!
     while true
-      system("clear")
       tick!
-      puts self.render
+      system("clear")
+      puts render
       sleep(velocity)
     end
   end
 
-  def render
-    display.render
-  end
     
   private
 
@@ -51,12 +48,16 @@ class Game
 
   attr_reader :world, :display, :velocity
 
-    def self.random(dimensions)
-      states = [:live, :dead]
-      grid = Array.new(dimensions.first) do
-        Array.new(dimensions.last) { states.sample }
-      end
+  def self.random(dimensions)
+    states = [:live, :dead]
+    grid = Array.new(dimensions.first) do
+      Array.new(dimensions.last) { states.sample }
     end
+  end
+
+  def render
+    display.render
+  end
   
   def tick!
     world.tick!
