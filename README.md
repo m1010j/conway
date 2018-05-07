@@ -8,8 +8,9 @@
 
 1.  [Features](#features)
 2.  [Installation and use](#installation-and-use)
-3.  [Future directions](#future-directions)
-4.  [License](#license)
+3.  [Code status](#code-status)
+4.  [Future directions](#future-directions)
+5.  [License](#license)
 
 ### Features
 
@@ -97,6 +98,10 @@
       ```
 
 3.  Quit at any point with `Ctrl`+`C`.
+
+## Code status
+
+[ ![Codeship Status for m1010j/conway](https://app.codeship.com/projects/e0206780-33c7-0136-a162-2e6dfbb19319/status?branch=master)](https://app.codeship.com/projects/288978)
 
 ## Future directions
 
