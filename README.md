@@ -61,7 +61,7 @@
 
     e. **<i>D</i>ependency inversion principle**
 
-    * The `Display` class exemplifies dependency injection.
+    * The `World` and `Display` classes exemplify dependency injection.
 
 ### Installation and use
 
