@@ -99,11 +99,11 @@
 
 3.  Quit at any point with `Ctrl`+`C`.
 
-## Code status
+### Code status
 
 [ ![Codeship Status for m1010j/conway](https://app.codeship.com/projects/e0206780-33c7-0136-a162-2e6dfbb19319/status?branch=master)](https://app.codeship.com/projects/288978)
 
-## Future directions
+### Future directions
 
 * ⚡️ Improve performance by avoiding checking cells that don't need to be checked in a given tick.
 * 📜 Incorporate alternative rule sets. The foundations for this are laid by the dedicated `Rules` module.
