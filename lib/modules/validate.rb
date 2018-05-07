@@ -2,25 +2,23 @@ require_relative '../errors/invalid_initial_state'
 
 module Validate
   def validate_initial_state!(initial_state)
-    unless initial_state_is_valid?(initial_state)
-      raise InvalidInitialStateError
-    end
+    raise InvalidInitialStateError unless initial_state_is_valid?(initial_state)
   end
 
   def initial_state_is_valid?(initial_state)
     return false unless initial_state
-  
+
     flattened = initial_state.flatten
-    only_dead_or_live?(flattened) && is_equilateral?(initial_state)
+    only_dead_or_live?(flattened) && equilateral?(initial_state)
   end
-  
+
   def only_dead_or_live?(cell_state_array)
-    cell_state_array.all? do |cell_state| 
+    cell_state_array.all? do |cell_state|
       cell_state == :live || cell_state == :dead
     end
   end
 
-  def is_equilateral?(array)
+  def equilateral?(array)
     init_state_dimensionality = array_dimensionality(array)
     case init_state_dimensionality
     when 1
@@ -29,7 +27,7 @@ module Validate
       width = array[0].length
       array.all? { |row| row.length == width }
     else
-      array.all? { |inner_array| is_equilateral?(inner_array) }
+      array.all? { |inner_array| equilateral?(inner_array) }
     end
   end
 

@@ -24,14 +24,12 @@ class Location
   end
 
   private
+
   attr_reader :dimensions
 
   def neighbor_coordinates
     self.class.deltas(dimensions).map do |delta|
-      [
-        (x + delta.first) % dimensions.first,
-        (y + delta.last) % dimensions.last
-      ]
+      [(x + delta.first) % dimensions.first, (y + delta.last) % dimensions.last]
     end
   end
 
@@ -42,6 +40,8 @@ class Location
   def y
     coordinate.last
   end
+
+  private_class_method
 
   def self.deltas(dimensions)
     unless @deltas

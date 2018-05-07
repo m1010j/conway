@@ -2,12 +2,10 @@ require 'world'
 require 'board'
 
 describe World do
-    let(:board) { Board.new(initial_state: initial_state) }
-  subject(:world) { World.new(
-    initial_state: initial_state,
-    board: board,
-    dimensions: [5, 5]
-  ) }
+  let(:board) { Board.new(initial_state: initial_state) }
+  subject(:world) do
+    World.new(initial_state: initial_state, board: board, dimensions: [5, 5])
+  end
 
   describe '#generation' do
     it 'starts out at 0' do
@@ -32,7 +30,7 @@ describe World do
         check_live_at(board, true_coordinates)
       end
     end
-    context "when cells do wrap around" do
+    context 'when cells do wrap around' do
       it 'modifies world according to rules, wrapping cells around' do
         world.tick!
         world.tick!

@@ -1,6 +1,6 @@
-require_relative 'modules/validate'
-require_relative 'live_cell'
 require_relative 'dead_cell'
+require_relative 'live_cell'
+require_relative 'modules/validate'
 
 class Board
   def initialize(attributes)
@@ -25,11 +25,11 @@ class Board
   end
 
   def set_at(location, live)
-    if live
-      board[location.coordinate] = LiveCell.instance
-    else
-      board[location.coordinate] = DeadCell.instance
-    end
+    board[location.coordinate] = if live
+                                   LiveCell.instance
+                                 else
+                                   DeadCell.instance
+                                 end
   end
 
   def to_s(location)
@@ -44,10 +44,18 @@ class Board
   end
 
   protected
-  attr_accessor :board  
+
+  attr_accessor :board
 
   private
-  extend Validate    
+
+  def cell_at(location)
+    board[location.coordinate]
+  end
+
+  private_class_method
+
+  extend Validate  
 
   def self.generate_board(initial_state)
     board = {}
@@ -58,9 +66,5 @@ class Board
       end
     end
     board
-  end
-
-  def cell_at(location)
-    board[location.coordinate]
   end
 end

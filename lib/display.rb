@@ -7,7 +7,7 @@ class Display
   end
 
   def render(generation)
-    result_string = ""
+    result_string = ''
     height.times do |y|
       width.times do |x|
         location = Location.new(coordinate: [x, y], dimensions: [width, height])
@@ -19,6 +19,7 @@ class Display
   end
 
   private
+
   attr_reader :board, :dimensions
 
   def width

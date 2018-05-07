@@ -8,7 +8,7 @@ describe DeadCell do
       expect(cell.live?).to eq(false)
     end
   end
-    
+
   describe '#to_s' do
     it 'returns skull emoji string' do
       expect(cell.to_s).to eq("\u{1f480} ")

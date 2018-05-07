@@ -27,9 +27,10 @@ class World
   end
 
   private
+
   attr_reader :dimensions, :neighbor_map
   attr_accessor :board
-  
+
   def generate_neighbor_map
     neighbor_map = {}
     coordinates = board.coordinates
@@ -46,7 +47,7 @@ class World
 
   def num_live_neighbors(board, location)
     neighbor_locations = neighbor_map[location.coordinate]
-    neighbor_locations.count do |neighbor_location| 
+    neighbor_locations.count do |neighbor_location|
       board.live_at?(neighbor_location)
     end
   end
