@@ -7,14 +7,12 @@ describe Board do
     it "throws error if initial state isn't equilateral" do
       invalid_initial_state = initial_state.dup
       invalid_initial_state[0].pop
-      expect { Board.new(initial_state: invalid_initial_state) }
-        .to raise_error(InvalidInitialStateError)
+      expect { Board.new(initial_state: invalid_initial_state) }.to raise_error(InvalidInitialStateError)
     end
     it 'throws error if initial state contains invalid states' do
       invalid_initial_state = initial_state.dup
       invalid_initial_state[0][4] = :schroedinger
-      expect { Board.new(initial_state: invalid_initial_state) }
-        .to raise_error(InvalidInitialStateError)
+      expect { Board.new(initial_state: invalid_initial_state) }.to raise_error(InvalidInitialStateError)
     end
   end
 
@@ -92,17 +90,18 @@ describe Board do
     it 'returns a new board' do
       duped = board.deep_dup
       expect(duped).to be_a(Board)
-      expect(board.object_id).not_to be(duped.object_id)
+      expect(board).not_to equal(duped)
     end
     it 'returns a deep duped board' do
       duped = board.deep_dup
-      frozen_instance_vars = board.instance_variables.reject do |var|
+      non_frozen_instance_vars = board.instance_variables.reject do |var|
         attribute = board.instance_variable_get(var)
         attribute.frozen?
       end
-      frozen_instance_vars.each do |var|
-        expect(board.instance_variable_get(var).object_id)
-          .not_to be(duped.instance_variable_get(var).object_id)
+      non_frozen_instance_vars.each do |var|
+        expect(board.instance_variable_get(var)).not_to equal(
+          duped.instance_variable_get(var)
+        )
       end
     end
   end
