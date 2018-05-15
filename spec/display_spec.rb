@@ -4,7 +4,7 @@ require 'board'
 describe Display do
   let(:initial_state) {
     [
-      [:live, :dead, :dead],
+      [:ylive, :dead, :dead],
       [:dead, :dead, :dead],
     ]
   }

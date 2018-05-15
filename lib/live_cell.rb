@@ -5,12 +5,19 @@ class LiveCell
   include Singleton
   include Cell
 
+  def to_s
+    raise NotImplementedError
+  end
+
+  def yellow?
+    raise NotImplementedError
+  end
+
   def live?
     true
   end
 
-  def to_s
-    # '😁 '
-    "\u{1f601} "
+  def purple?
+    !yellow?
   end
 end

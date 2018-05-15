@@ -9,12 +9,13 @@ module Validate
     return false unless initial_state
 
     flattened = initial_state.flatten
-    only_dead_or_live?(flattened) && equilateral?(initial_state)
+    only_valid_cell_state?(flattened) && equilateral?(initial_state)
   end
 
-  def only_dead_or_live?(cell_state_array)
+  def only_valid_cell_state?(cell_state_array)
+    valid_states = [:ylive, :plive, :dead]
     cell_state_array.all? do |cell_state|
-      cell_state == :live || cell_state == :dead
+      valid_states.include?(cell_state)
     end
   end
 

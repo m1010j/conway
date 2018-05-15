@@ -15,13 +15,13 @@ class World
     duped_board = board.deep_dup
     duped_board.coordinates.each do |coordinate|
       location = Location.new(coordinate: coordinate, dimensions: dimensions)
-      num_live_neighbors = num_live_neighbors(duped_board, location)
-      live_after_tick = live_after_tick?(
+      neighbors = neighbors(duped_board, location)
+      cell_after_tick = cell_after_tick(
         duped_board,
         location,
-        num_live_neighbors
+        neighbors
       )
-      board.set_at(location, live_after_tick)
+      board.set_at(location: location, cell: cell_after_tick)
     end
     increment_generation
   end
@@ -45,14 +45,14 @@ class World
     @generation += 1
   end
 
-  def num_live_neighbors(board, location)
+  def neighbors(board, location)
     neighbor_locations = neighbor_map[location.coordinate]
-    neighbor_locations.count do |neighbor_location|
-      board.live_at?(neighbor_location)
+    neighbor_locations.map do |neighbor_location|
+      board.cell_at(neighbor_location)
     end
   end
 
-  def live_after_tick?(board, location, num_live_neighbors)
-    board.live_after_tick?(location, num_live_neighbors)
+  def cell_after_tick(board, location, neighbors)
+    board.cell_after_tick(location, neighbors)
   end
 end

@@ -1,5 +1,6 @@
 require 'world'
 require 'board'
+require 'byebug'
 
 describe World do
   let(:board) { Board.new(initial_state: initial_state) }
@@ -25,18 +26,20 @@ describe World do
       it 'modifies world according to rules' do
         world.tick!
         board = world.send(:board)
-
-        true_coordinates = [[0, 1], [1, 2], [1, 3], [2, 1], [2, 2]]
-        check_live_at(board, true_coordinates)
+        ylive_coordinates = [[2, 1]]
+        plive_coordinates = [[0, 1], [1, 2], [1, 3], [2, 2]]
+        check_live_at(board, ylive_coordinates, plive_coordinates)
       end
     end
     context 'when cells do wrap around' do
       it 'modifies world according to rules, wrapping cells around' do
         world.tick!
         world.tick!
-
-        true_coordinates = [[0, 2], [1, 3], [2, 1], [2, 2], [2, 3]]
-        check_live_at(board, true_coordinates)
+        board = world.send(:board)
+        
+        ylive_coordinates = [[2, 1]]
+        plive_coordinates = [[0, 2], [1, 3], [2, 2], [2, 3]]
+        check_live_at(board, ylive_coordinates, plive_coordinates)
       end
     end
   end

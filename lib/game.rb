@@ -70,9 +70,16 @@ class Game
   end
 
   def self.random(dimensions)
-    states = %i[live dead]
     Array.new(dimensions.first) do
-      Array.new(dimensions.last) { states.sample }
+      Array.new(dimensions.last) { random_state }
     end
+  end
+
+  def self.random_state
+    [:dead, random_live].sample
+  end
+
+  def self.random_live
+    %i[ylive plive].sample
   end
 end

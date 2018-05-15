@@ -99,9 +99,9 @@ end
 
 def initial_state
   [
-    %i[dead live dead dead dead],
-    %i[dead dead live dead dead],
-    %i[live live live dead dead],
+    %i[dead ylive dead dead dead],
+    %i[dead dead ylive dead dead],
+    %i[plive plive plive dead dead],
     %i[dead dead dead dead dead],
     %i[dead dead dead dead dead]
   ]
@@ -126,17 +126,22 @@ coordinates.each do |coordinate|
   end
 end
 
-def check_live_at(board, true_coordinates)
-  false_coordinates = coordinates - true_coordinates
-  true_coordinates.each do |coordinate|
+def check_live_at(board, ylive_coordinates, plive_coordinates)
+  dead_coordinates = (coordinates - ylive_coordinates) - plive_coordinates
+  ylive_coordinates.each do |coordinate|
     expect(
-      board.live_at?(send("location_#{coordinate.first}_#{coordinate.last}"))
-    ).to be(true)
+      board.cell_at(send("location_#{coordinate.first}_#{coordinate.last}"))
+    ).to be(YliveCell.instance)
   end
-  false_coordinates.each do |coordinate|
+  plive_coordinates.each do |coordinate|
     expect(
-      board.live_at?(send("location_#{coordinate.first}_#{coordinate.last}"))
-    ).to be(false)
+      board.cell_at(send("location_#{coordinate.first}_#{coordinate.last}"))
+    ).to be(PliveCell.instance)
+  end
+  dead_coordinates.each do |coordinate|
+    expect(
+      board.cell_at(send("location_#{coordinate.first}_#{coordinate.last}"))
+    ).to be(DeadCell.instance)
   end
 end
 
@@ -145,4 +150,65 @@ def extract_coordinates(location)
   x = coordinates.first
   y = coordinates.last
   [x, y]
+end
+
+def shared_live_cell_specs
+  describe '#live?' do
+    it 'returns true' do
+      expect(cell.live?).to eq(true)
+    end
+  end
+
+  describe '#cell_after_tick' do
+    it 'returns self for 2 or 3 live neighbors' do
+      neighbors = [
+        YliveCell.instance,
+        PliveCell.instance,
+        DeadCell.instance,
+        DeadCell.instance,
+        DeadCell.instance,
+        DeadCell.instance,
+        DeadCell.instance,
+        DeadCell.instance
+      ]
+      expect(cell.cell_after_tick(neighbors)).to eq(cell)
+
+      neighbors[2] = YliveCell.instance
+      expect(cell.cell_after_tick(neighbors)).to eq(cell)
+    end
+
+    it 'returns dead cell for < 2 or > 3 live neighbors' do
+      neighbors = [
+        DeadCell.instance,
+        DeadCell.instance,
+        DeadCell.instance,
+        DeadCell.instance,
+        DeadCell.instance,
+        DeadCell.instance,
+        DeadCell.instance,
+        DeadCell.instance
+      ]
+      expect(cell.cell_after_tick(neighbors)).to eq(DeadCell.instance)
+
+      neighbors[0] = YliveCell.instance
+      expect(cell.cell_after_tick(neighbors)).to eq(DeadCell.instance)
+
+      neighbors[1] = PliveCell.instance
+      neighbors[2] = YliveCell.instance
+      neighbors[3] = PliveCell.instance
+      expect(cell.cell_after_tick(neighbors)).to eq(DeadCell.instance)
+
+      neighbors[4] = YliveCell.instance
+      expect(cell.cell_after_tick(neighbors)).to eq(DeadCell.instance)
+
+      neighbors[5] = PliveCell.instance
+      expect(cell.cell_after_tick(neighbors)).to eq(DeadCell.instance)
+
+      neighbors[6] = YliveCell.instance
+      expect(cell.cell_after_tick(neighbors)).to eq(DeadCell.instance)
+
+      neighbors[7] = PliveCell.instance
+      expect(cell.cell_after_tick(neighbors)).to eq(DeadCell.instance)
+    end
+  end
 end

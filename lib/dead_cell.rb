@@ -13,4 +13,12 @@ class DeadCell
     # '💀 '
     "\u{1f480} "
   end
+
+  def yellow?
+    false
+  end
+
+  def purple?
+    false
+  end
 end

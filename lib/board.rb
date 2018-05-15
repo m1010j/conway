@@ -1,5 +1,6 @@
 require_relative 'dead_cell'
-require_relative 'live_cell'
+require_relative 'ylive_cell'
+require_relative 'plive_cell'
 require_relative 'modules/validate'
 
 class Board
@@ -14,22 +15,15 @@ class Board
     board.keys
   end
 
-  def live_at?(location)
-    cell = cell_at(location)
-    cell.live?
+  def cell_at(location)
+    board[location.coordinate]
   end
 
-  def live_after_tick?(location, num_live_neighbors)
-    cell = cell_at(location)
-    cell.live_after_tick?(num_live_neighbors)
-  end
-
-  def set_at(location, live)
-    board[location.coordinate] = if live
-                                   LiveCell.instance
-                                 else
-                                   DeadCell.instance
-                                 end
+  def set_at(args)
+    location = args[:location]
+    cell = args[:cell]
+    
+    board[location.coordinate] = cell
   end
 
   def to_s(location)
@@ -43,15 +37,14 @@ class Board
     duped
   end
 
+  def cell_after_tick(location, neighbors)
+    cell = cell_at(location)
+    cell.cell_after_tick(neighbors)
+  end
+
   protected
 
   attr_accessor :board
-
-  private
-
-  def cell_at(location)
-    board[location.coordinate]
-  end
 
   private_class_method
 
@@ -61,10 +54,18 @@ class Board
     board = {}
     initial_state.each_with_index do |row, y|
       row.each_with_index do |state, x|
-        cell = state == :live ? LiveCell.instance : DeadCell.instance
+        cell = cell_map[state]
         board[[x, y]] = cell
       end
     end
     board
+  end
+
+  def self.cell_map
+    {
+      ylive: YliveCell.instance,
+      plive: PliveCell.instance,
+      dead: DeadCell.instance
+    }
   end
 end
